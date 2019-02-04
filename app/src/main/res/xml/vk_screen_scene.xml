@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@id/toolbar_x"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    motion:layout_constraintTop_toTopOf="parent"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@id/chat_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginBottom="@dimen/dp8"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintTop_toBottomOf="@id/toolbar_x"
+                    motion:layout_constraintBottom_toTopOf="@id/input_line" />
+
+        <Constraint android:id="@id/input_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintBottom_toTopOf="@id/input_container" />
+
+        <Constraint android:id="@id/input_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintBottom_toBottomOf="parent" />
+    </ConstraintSet>
+
+</MotionScene>

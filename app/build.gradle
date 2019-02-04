@@ -1,0 +1,105 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
+static def getDateTime() {
+    DateFormat df = new SimpleDateFormat("dd MMMMM yyyy")
+    return df.format(new Date()) + " г."
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+    def fileNaming = "apk/NoNameX"
+    def versionNumber = 1
+    def versionMajor = "0"
+    def versionMinor = "1"
+    def versionPatch = "0"
+    def versionBuild = -1
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+        versionProps['VERSION_BUILD'] = versionBuild.toString()
+        versionProps['DATE_BUILD'] = getDateTime()
+        versionProps.store(versionPropsFile.newWriter(), null)
+    }
+
+    def appId = "com.svarochnyeraboty.tosno"
+    defaultConfig {
+        applicationId appId
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode versionNumber
+        versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
+        vectorDrawables.useSupportLibrary true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${fileNaming}-${versionMajor}.${versionMinor}.${versionPatch}.apk"
+        }
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    def coroutines_version = '1.0.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha03'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+
+    def lifecycle_version = '2.0.0'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    def koin_version = '1.0.1'
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    implementation 'com.github.florent37:shapeofview:1.4.6'
+    implementation 'com.vk:androidsdk:2.0.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'jp.wasabeef:picasso-transformations:2.2.1'
+
+    api 'com.ydevelop:bannerlayout:1.1.5'
+
+    implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}

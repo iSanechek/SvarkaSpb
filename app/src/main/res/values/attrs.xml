@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ToolbarX">
+        <attr name="toolbarX_animationDuration" format="integer" />
+        <attr name="toolbarX_showElevationAtStart" format="boolean" />
+    </declare-styleable>
+</resources>

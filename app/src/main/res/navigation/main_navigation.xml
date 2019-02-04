@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_navigation"
+            app:startDestination="@id/dashboard_screen">
+
+    <fragment
+            android:id="@+id/dashboard_screen"
+            android:name="com.isanechek.myapplication.screens.dashboard.DashboardScreen"
+            android:label="Dashboard" >
+
+        <action android:id="@+id/go_from_dashboard_to_info"
+                app:destination="@id/info_screen" />
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/info_screen"
+            android:name="com.isanechek.myapplication.screens.info.InfoScreen"
+            android:label="Info" />
+
+</navigation>
