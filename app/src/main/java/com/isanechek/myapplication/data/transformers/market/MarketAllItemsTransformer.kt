@@ -1,6 +1,7 @@
-package com.isanechek.myapplication.data.transformers
+package com.isanechek.myapplication.data.transformers.market
 
 import com.isanechek.myapplication.data.models.market.*
+import com.isanechek.myapplication.data.transformers.Transformer
 import com.isanechek.myapplication.utils.loging.DebugContract
 import org.json.JSONObject
 import java.text.ParseException
@@ -15,7 +16,7 @@ class MarketAllItemsTransformer(
 
         try {
 
-            val response = JSONObject(source)
+            val response = JSONObject(source).getJSONObject("response")
             totalSizeItems = response.getInt("count")
             val items = response.getJSONArray("items")
             for (i in 0 until items.length()) {
