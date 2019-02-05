@@ -3,9 +3,9 @@
              xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@id/toolbar_x"
-                    android:layout_width="match_parent"
+        <Constraint android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@id/toolbar_x"
                     motion:layout_constraintTop_toTopOf="parent"
                     motion:layout_constraintStart_toStartOf="parent"
                     motion:layout_constraintEnd_toEndOf="parent"/>
@@ -13,6 +13,7 @@
         <Constraint android:id="@id/chat_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:visibility="visible"
                     android:layout_marginStart="@dimen/dp8"
                     android:layout_marginEnd="@dimen/dp8"
                     android:layout_marginTop="@dimen/dp8"
@@ -20,21 +21,132 @@
                     motion:layout_constraintStart_toStartOf="parent"
                     motion:layout_constraintEnd_toEndOf="parent"
                     motion:layout_constraintTop_toBottomOf="@id/toolbar_x"
-                    motion:layout_constraintBottom_toTopOf="@id/input_line" />
+                    motion:layout_constraintBottom_toTopOf="@id/input_line"/>
 
-        <Constraint android:id="@id/input_line"
-                    android:layout_width="match_parent"
+        <Constraint android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:id="@id/input_line"
+                    android:visibility="visible"
                     motion:layout_constraintStart_toStartOf="parent"
                     motion:layout_constraintEnd_toEndOf="parent"
-                    motion:layout_constraintBottom_toTopOf="@id/input_container" />
+                    motion:layout_constraintBottom_toTopOf="@id/input_container"/>
 
-        <Constraint android:id="@id/input_container"
-                    android:layout_width="match_parent"
+        <Constraint android:layout_width="match_parent"
                     android:layout_height="80dp"
+                    android:id="@id/input_container"
+                    android:visibility="visible"
                     motion:layout_constraintStart_toStartOf="parent"
                     motion:layout_constraintEnd_toEndOf="parent"
-                    motion:layout_constraintBottom_toBottomOf="parent" />
+                    motion:layout_constraintBottom_toBottomOf="parent"/>
+        <!--Auth state-->
+        <Constraint android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@id/guideline5"
+                    android:orientation="horizontal"
+                    motion:layout_constraintGuide_percent="0.28"/>
+
+        <Constraint android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@id/auth_emotion_cover"
+                    android:visibility="invisible"
+                    motion:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    motion:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    motion:layout_constraintTop_toTopOf="@+id/guideline5"/>
+        <Constraint android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@id/auth_error_message"
+                    android:visibility="invisible"
+                    motion:layout_constraintTop_toBottomOf="@id/auth_emotion_cover"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:layout_marginEnd="@dimen/dp8"/>
+
+        <Constraint android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@id/auth_btn"
+                    android:visibility="invisible"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    motionlayout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintTop_toBottomOf="@id/auth_error_message"
+                    motion:layout_constraintEnd_toEndOf="parent" />
     </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/no_auth_state">
+        <Constraint android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@id/toolbar_x"
+                    motion:layout_constraintTop_toTopOf="parent"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@id/chat_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginBottom="@dimen/dp8"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintTop_toBottomOf="@id/toolbar_x"
+                    motion:layout_constraintBottom_toTopOf="@id/input_line"/>
+
+        <Constraint android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@id/input_line"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintBottom_toTopOf="@id/input_container"/>
+
+        <Constraint android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:id="@id/input_container"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintBottom_toBottomOf="parent"/>
+        <!--Auth state-->
+        <Constraint android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@id/guideline5"
+                    android:orientation="horizontal"
+                    motion:layout_constraintGuide_percent="0.28"/>
+
+        <Constraint android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:id="@id/auth_emotion_cover"
+                    motion:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    motion:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    motion:layout_constraintTop_toTopOf="@+id/guideline5"/>
+        <Constraint android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@id/auth_error_message"
+                    motion:layout_constraintTop_toBottomOf="@id/auth_emotion_cover"
+                    motion:layout_constraintEnd_toEndOf="parent"
+                    motion:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:layout_marginEnd="@dimen/dp8"/>
+
+        <Constraint android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@id/auth_btn"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    motionlayout_constraintStart_toStartOf="parent"
+                    motion:layout_constraintTop_toBottomOf="@id/auth_error_message"
+                    motion:layout_constraintEnd_toEndOf="parent"/>
+    </ConstraintSet>
+    <Transition motion:constraintSetStart="@id/start"
+                motion:constraintSetEnd="@id/no_auth_state"
+                motion:duration="300"
+                motion:interpolator="linear"/>
 
 </MotionScene>
