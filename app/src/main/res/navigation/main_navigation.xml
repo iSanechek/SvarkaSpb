@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/main_navigation"
-            app:startDestination="@id/dashboard_screen">
+            app:startDestination="@id/shop_screen">
 
     <fragment
             android:id="@+id/dashboard_screen"
@@ -18,5 +18,12 @@
             android:id="@+id/info_screen"
             android:name="com.isanechek.myapplication.screens.info.InfoScreen"
             android:label="Info" />
+
+    <fragment
+            android:id="@+id/shop_screen"
+            android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
+            android:label="Shop" >
+    </fragment>
+
 
 </navigation>

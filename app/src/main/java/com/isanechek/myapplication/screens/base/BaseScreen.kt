@@ -21,4 +21,8 @@ abstract class BaseScreen : Fragment() {
     fun goToScree(@IdRes screenId: Int) {
         findNavController().navigate(screenId)
     }
+
+    fun closeScreen() {
+        findNavController().navigateUp()
+    }
 }
