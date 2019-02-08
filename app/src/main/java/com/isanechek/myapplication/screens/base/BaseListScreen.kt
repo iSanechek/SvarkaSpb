@@ -1,7 +1,6 @@
 package com.isanechek.myapplication.screens.base
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentManager
@@ -77,31 +76,13 @@ open class BaseListScreen : BaseScreen() {
     fun checkLogin(manager: FragmentManager, callback: (AuthState) -> Unit) {
         when {
             VK.isLoggedIn() -> callback(AuthState.LoadData)
-            else -> NeedAuthDialog().apply {
-                show(manager, "auth_dialog")
-                setCallback(object : NeedAuthDialog.Callback {
-                    override fun positive() {
-                        callback(AuthState.NeedLogin)
-                    }
-
-                    override fun negative() {
-                        callback(AuthState.CloseScreen)
-                    }
-                })
-            }
+            else -> NeedAuthDialog {
+                callback(it)
+            }.show(manager, "auth_dialog")
         }
     }
 
     fun startLogin(context: Activity) {
-        VK.login(
-            context, arrayListOf(
-                VKScope.WALL,
-                VKScope.GROUPS,
-                VKScope.MARKET,
-                VKScope.MESSAGES,
-                VKScope.PHOTOS,
-                VKScope.VIDEO
-            )
-        )
+
     }
 }

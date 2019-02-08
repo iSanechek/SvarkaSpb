@@ -1,22 +1,24 @@
-package com.isanechek.myapplication.data.transformers.market
+package com.isanechek.myapplication.data.requests
 
 import com.isanechek.myapplication.data.models.market.*
-import com.isanechek.myapplication.data.transformers.Transformer
-import com.isanechek.myapplication.utils.loging.DebugContract
+import com.vk.api.sdk.requests.VKRequest
 import org.json.JSONObject
 import java.text.ParseException
 
-class MarketAllItemsTransformer(
-    private val debug: DebugContract
-) : Transformer<Market> {
+class VkMarketAllItemsRequest(ownerId: Int) : VKRequest<Market>("market.get") {
 
-    override fun transform(source: String): Market {
+    init {
+        addParam("owner_id", ownerId)
+        addParam("extended", 1)
+    }
+
+    override fun parse(r: JSONObject): Market {
         val temp = mutableListOf<MarketItem>()
         var totalSizeItems = 0
 
         try {
 
-            val response = JSONObject(source).getJSONObject("response")
+            val response = r.getJSONObject("response")
             totalSizeItems = response.getInt("count")
             val items = response.getJSONArray("items")
             for (i in 0 until items.length()) {
@@ -49,13 +51,10 @@ class MarketAllItemsTransformer(
             }
 
         } catch (err: ParseException) {
-            debug.sendStackTrace("Parse All Market Items", err)
+
         }
 
-        debug.log("Parse All Market Items Size ${temp.size}")
-
         return Market(totalSizeItems, temp)
-
     }
 
     private fun parseCurrency(jo: JSONObject): MarketItemCurrency {
@@ -84,5 +83,4 @@ class MarketAllItemsTransformer(
         val section = parseSection(jo.getJSONObject("section"))
         return MarketItemCategory(id, name, section)
     }
-
 }

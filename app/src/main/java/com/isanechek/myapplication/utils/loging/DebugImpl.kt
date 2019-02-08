@@ -25,8 +25,8 @@ class DebugImpl : DebugContract {
     }
 
     override fun log(msg: String?) {
+        Log.d("Svarka", msg)
         if (isDebug) {
-            Log.d("Svarka", msg)
         }
     }
 

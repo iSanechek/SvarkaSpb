@@ -23,6 +23,14 @@
             android:id="@+id/shop_screen"
             android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
             android:label="Shop" >
+
+        <action android:id="@+id/go_from_shop_to_auth" app:destination="@id/auth_screen" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/auth_screen"
+            android:name="com.isanechek.myapplication.screens.auth.AuthScreen"
+            android:label="Market" >
     </fragment>
 
 
