@@ -5,10 +5,13 @@ import com.vk.api.sdk.requests.VKRequest
 import org.json.JSONObject
 import java.text.ParseException
 
-class VkMarketAllItemsRequest(ownerId: Int) : VKRequest<Market>("market.get") {
+class VkMarketAllItemsRequest : VKRequest<Market>("market.get") {
 
     init {
-        addParam("owner_id", ownerId)
+        addParam("owner_id", -125640924)
+        addParam("album_id", 0)
+        addParam("count", 50)
+        addParam("offset", 0)
         addParam("extended", 1)
     }
 

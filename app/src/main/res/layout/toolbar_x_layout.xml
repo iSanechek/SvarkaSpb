@@ -17,7 +17,7 @@
                 android:layout_gravity="center|start"
                 android:background="?android:selectableItemBackground"
                 android:padding="@dimen/dp8"
-                android:visibility="invisible"
+                android:visibility="visible"
                 tools:src="@drawable/ic_arrow_back_black_24dp"
                 tools:visibility="visible"/>
 

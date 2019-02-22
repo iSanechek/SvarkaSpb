@@ -3,62 +3,58 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp8"
         android:layout_marginEnd="@dimen/dp8"
         android:layout_marginTop="@dimen/dp4"
         android:layout_marginBottom="@dimen/dp4"
         app:cardCornerRadius="@dimen/dp8"
-        android:animateLayoutChanges="true">
+        app:cardElevation="@dimen/dp4"
+        android:clickable="false"
+        android:clipChildren="true"
+        android:id="@+id/info_item_container">
 
-    <!--app:layoutDescription="@xml/info_card_transition"
-            app:progress="0"-->
 
-    <androidx.constraintlayout.motion.widget.MotionLayout
-            android:id="@+id/info_motion_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" app:layoutDescription="@xml/info_card_transition">
-
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/dp8"
+                  android:orientation="vertical">
         <TextView
                 android:id="@+id/info_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="@tools:sample/cities"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"
-                android:textSize="22sp"
-                android:textColor="@color/colorAccent" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp"/>
 
         <TextView
                 android:id="@+id/info_item_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="@string/long_text_for_test"
-                android:layout_marginTop="8dp"
-                android:lines="3"
-                app:layout_constraintTop_toBottomOf="@+id/info_item_title"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"
-                android:id="@+id/collapse_btn"
-                android:background="?android:selectableItemBackground"
-                android:padding="8dp"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/info_item_description"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_marginTop="@dimen/dp2"
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                android:layout_marginBottom="@dimen/dp4"
+                android:textSize="16sp"
+                android:padding="@dimen/dp4"/>
 
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/info_item_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cornerRadius="@dimen/dp16"
+                android:text="Узнать подробности"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="@dimen/dp4"
+                android:layout_marginBottom="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"/>
+
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -1,20 +1,14 @@
 package com.isanechek.myapplication.screens.base
 
-import android.app.Activity
-import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.myapplication._layout
-import com.isanechek.myapplication.data.models.AuthState
 import com.isanechek.myapplication.data.models.LoadStatus
-import com.isanechek.myapplication.screens.dialogs.NeedAuthDialog
+import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.setVisible
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.auth.VKScope
 import kotlinx.android.synthetic.main.base_list_screen_layout.*
 import kotlinx.android.synthetic.main.toolbar_x_layout.*
 
@@ -28,14 +22,12 @@ open class BaseListScreen : BaseScreen() {
         }
     }
 
-    val loginVkCallback = object : VKAuthCallback {
-
-        override fun onLogin(token: VKAccessToken) {
-            Log.d("TEST", "Token ${token.userId}")
-        }
-
-        override fun onLoginFailed(errorCode: Int) {
-            Log.d("TEST", "Error code $errorCode")
+    fun setupCloseButton(@DrawableRes resourceId: Int, callback: () -> Unit) {
+        with(toolbar_x_back_btn) {
+            setImageDrawable(ContextCompat.getDrawable(requireContext(), resourceId))
+            onClick {
+                callback.invoke()
+            }
         }
     }
 
@@ -72,17 +64,4 @@ open class BaseListScreen : BaseScreen() {
     open fun getToolbar() = toolbar_x
 
     open fun getRecyclerView() = base_list
-
-    fun checkLogin(manager: FragmentManager, callback: (AuthState) -> Unit) {
-        when {
-            VK.isLoggedIn() -> callback(AuthState.LoadData)
-            else -> NeedAuthDialog {
-                callback(it)
-            }.show(manager, "auth_dialog")
-        }
-    }
-
-    fun startLogin(context: Activity) {
-
-    }
 }

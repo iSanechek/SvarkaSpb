@@ -12,6 +12,9 @@
         <action android:id="@+id/go_from_dashboard_to_info"
                 app:destination="@id/info_screen" />
 
+        <action android:id="@+id/go_from_dashboard_to_chat"
+                app:destination="@id/chat_screen" />
+
     </fragment>
 
     <fragment
@@ -22,16 +25,10 @@
     <fragment
             android:id="@+id/shop_screen"
             android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
-            android:label="Shop" >
-
-        <action android:id="@+id/go_from_shop_to_auth" app:destination="@id/auth_screen" />
-    </fragment>
+            android:label="Shop" />
 
     <fragment
-            android:id="@+id/auth_screen"
-            android:name="com.isanechek.myapplication.screens.auth.AuthScreen"
-            android:label="Market" >
-    </fragment>
-
-
+            android:id="@+id/chat_screen"
+            android:name="com.isanechek.myapplication.screens.chat.ChatScreen"
+            android:label="Chat" />
 </navigation>

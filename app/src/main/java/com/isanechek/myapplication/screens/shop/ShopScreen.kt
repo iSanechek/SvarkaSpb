@@ -1,12 +1,13 @@
 package com.isanechek.myapplication.screens.shop
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.isanechek.myapplication._id
 import com.isanechek.myapplication._layout
 import com.isanechek.myapplication.data.models.market.Market
 import com.isanechek.myapplication.data.models.market.MarketItem
 import com.isanechek.myapplication.data.requests.VkMarketAllItemsRequest
+import com.isanechek.myapplication.screens.auth.AuthScreen
 import com.isanechek.myapplication.screens.base.BaseListScreen
 import com.isanechek.myapplication.screens.base.bind
 import com.isanechek.myapplication.utils.loging.DebugContract
@@ -23,7 +24,8 @@ class ShowScreen : BaseListScreen() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!VK.isLoggedIn()) {
-            goToScree(_id.go_from_shop_to_auth)
+//            goToScree(_id.go_from_shop_to_auth)
+            requireActivity().startActivity(Intent(requireActivity(), AuthScreen::class.java))
         }
     }
 
@@ -42,8 +44,9 @@ class ShowScreen : BaseListScreen() {
         debug.log("BOOM")
         if (!VK.isLoggedIn()) return
         debug.log("BOOM 2")
-        VK.execute(VkMarketAllItemsRequest(-125640924), object : VKApiCallback<Market> {
+        VK.execute(VkMarketAllItemsRequest(), object : VKApiCallback<Market> {
             override fun fail(error: VKApiExecutionException) {
+                debug.log("Error response ${error.message}")
                 Toast.makeText(requireActivity(), "Error ${error.code}", Toast.LENGTH_SHORT).show()
             }
 
