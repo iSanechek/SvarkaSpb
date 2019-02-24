@@ -61,6 +61,10 @@ open class BaseListScreen : BaseScreen() {
         toolbar_x_title.text = title
     }
 
+    open fun showToolbarProgress(hide: Boolean) {
+        toolbar_x_progress.setVisible(hide)
+    }
+
     open fun getToolbar() = toolbar_x
 
     open fun getRecyclerView() = base_list

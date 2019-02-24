@@ -9,9 +9,6 @@ class VkMarketAllItemsRequest : VKRequest<Market>("market.get") {
 
     init {
         addParam("owner_id", -125640924)
-        addParam("album_id", 0)
-        addParam("count", 50)
-        addParam("offset", 0)
         addParam("extended", 1)
     }
 
@@ -35,7 +32,7 @@ class VkMarketAllItemsRequest : VKRequest<Market>("market.get") {
                 val date = item.getLong("date")
                 val coverUrl = item.getString("thumb_photo")
                 val availability = item.getInt("availability")
-                val favorite = item.getBoolean("is_favorite")
+//                val favorite = item.getBoolean("is_favorite")
                 temp.add(
                     MarketItem(
                         id = id,
@@ -47,7 +44,7 @@ class VkMarketAllItemsRequest : VKRequest<Market>("market.get") {
                         date = date,
                         coverUrl = coverUrl,
                         availability = availability,
-                        favorite = favorite
+                        favorite = false
                     )
                 )
 

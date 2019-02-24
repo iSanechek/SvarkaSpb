@@ -10,10 +10,8 @@ import com.isanechek.myapplication.R
 open class ToolbarX : Toolbar {
 
     private var isElevationShown = false
-    private var centerTitle = false
-    private var useLightFont = false
     private var animationDuration = 0L
-    private var toolbarElevation = 0f
+    private var toolbarElevation = 8f
 
     constructor(context: Context) : super(context) {
         initView(context, null, 0)

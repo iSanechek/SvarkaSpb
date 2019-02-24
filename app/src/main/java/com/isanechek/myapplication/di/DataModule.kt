@@ -21,5 +21,4 @@ val dataModule = module {
             get()
         )
     }
-
 }

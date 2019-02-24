@@ -9,6 +9,7 @@ import com.isanechek.myapplication._layout
 import com.isanechek.myapplication.data.models.AuthState
 import com.isanechek.myapplication.data.models.VKUser
 import com.isanechek.myapplication.data.requests.VKUserInfoRequest
+import com.isanechek.myapplication.delay
 import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.screens.dialogs.NeedAuthDialog
 import com.isanechek.myapplication.setVisible
@@ -37,8 +38,6 @@ class AuthScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(_layout.auth_screen_layout)
 
-//        auth_screen_avatar.setImageDrawable(ContextCompat.getDrawable(this, _drawable.ic_mood_bad_black_96dp))
-
         login_start_action.onClick {
             when {
                 pref.loginWarningState -> {
@@ -62,7 +61,9 @@ class AuthScreen : AppCompatActivity() {
         val callback = object : VKAuthCallback {
 
             override fun onLogin(token: VKAccessToken) {
-                debug.log( "Token ${token.userId}")
+                debug.log( "User id ${token.userId}")
+                debug.log( "Token ${token.accessToken}")
+                pref.token = token.accessToken
                 loadUserInfo()
             }
 
@@ -134,9 +135,9 @@ class AuthScreen : AppCompatActivity() {
                     }
                 }
 
-//                delay(300) {
-//                    finish()
-//                }
+                delay(3000) {
+                    finish()
+                }
             }
         })
     }

@@ -1,6 +1,7 @@
 package com.isanechek.myapplication
 
 import android.app.Application
+import com.isanechek.myapplication.di.appModule
 import com.isanechek.myapplication.di.dataModule
 import com.isanechek.myapplication.di.utilsModule
 import com.vk.api.sdk.VK
@@ -16,6 +17,7 @@ class App : Application() {
 
 
         startKoin(this, listOf(
+            appModule,
             dataModule,
             utilsModule
         ))
