@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.request.RequestOptions
 import com.isanechek.myapplication._drawable
+import com.isanechek.myapplication._id
 import com.isanechek.myapplication._layout
 import com.isanechek.myapplication.data.models.market.Market
 import com.isanechek.myapplication.data.models.market.MarketItem
@@ -30,7 +32,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ShowScreen : BaseListScreen() {
 
     private val debug: DebugContract by inject()
-    private val vm: ShopViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,14 @@ class ShowScreen : BaseListScreen() {
                                 .into(market_item_cover)
 
                             market_item_container.onClick {
-                                // implementation open details screen
+                                val detailItemId = "${item.ownerId}_${item.id}"
+                                debug.log("Go to detail screen with id $detailItemId")
+                                findNavController().navigate(
+                                    _id.go_shop_from_master_to_detail,
+                                    bundleOf(
+                                        ShopDetailScreen.ARGS_MARKET_DETAIL_ID to detailItemId
+                                    )
+                                )
                             }
 
                             with(market_item_favorite) {

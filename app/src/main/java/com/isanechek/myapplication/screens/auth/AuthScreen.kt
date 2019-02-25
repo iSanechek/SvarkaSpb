@@ -5,14 +5,11 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.isanechek.myapplication._layout
+import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.models.AuthState
 import com.isanechek.myapplication.data.models.VKUser
 import com.isanechek.myapplication.data.requests.VKUserInfoRequest
-import com.isanechek.myapplication.delay
-import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.screens.dialogs.NeedAuthDialog
-import com.isanechek.myapplication.setVisible
 import com.isanechek.myapplication.utils.GlideApp
 import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.glide.CustomGlideDrawableImageViewTarget
@@ -33,6 +30,7 @@ class AuthScreen : AppCompatActivity() {
 
     private val pref: PrefManager by inject()
     private val debug: DebugContract by inject()
+    private val admins = listOf(UserStatus.GOD, UserStatus.LOARD, UserStatus.CLIENT)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +60,13 @@ class AuthScreen : AppCompatActivity() {
 
             override fun onLogin(token: VKAccessToken) {
                 debug.log( "User id ${token.userId}")
+                for (admin in admins) {
+                    if (admin == token.userId) {
+                        pref.isAdmin = 1
+                        debug.log( "Find Admin in status ${UserStatus.checkStatus(token.userId)}")
+                        break
+                    }
+                }
                 debug.log( "Token ${token.accessToken}")
                 pref.token = token.accessToken
                 loadUserInfo()

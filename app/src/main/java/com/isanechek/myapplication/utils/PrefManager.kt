@@ -7,11 +7,21 @@ import com.isanechek.myapplication.empty
 interface PrefManager {
     var loginWarningState: Boolean
     var token: String
+    var isAdmin: Int
 }
 
 class PrefManagerImpl(
     private val preferences: SharedPreferences
 ) : PrefManager {
+
+    override var isAdmin: Int
+        get() = preferences.getInt("user.is.admin", 0)
+        set(value) {
+            preferences.edit {
+                putInt("user.is.admin", value)
+            }
+        }
+
     override var token: String
         get() = preferences.getString("user.vk.token", String.empty()) ?: String.empty()
         set(value) {

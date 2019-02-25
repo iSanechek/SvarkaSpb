@@ -22,14 +22,7 @@ open class BaseListScreen : BaseScreen() {
         }
     }
 
-    fun setupCloseButton(@DrawableRes resourceId: Int, callback: () -> Unit) {
-        with(toolbar_x_back_btn) {
-            setImageDrawable(ContextCompat.getDrawable(requireContext(), resourceId))
-            onClick {
-                callback.invoke()
-            }
-        }
-    }
+
 
     val progressObserver = Observer<LoadStatus> { status ->
         status?.let {

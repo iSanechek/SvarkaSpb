@@ -25,10 +25,19 @@
     <fragment
             android:id="@+id/shop_screen"
             android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
-            android:label="Shop" />
+            android:label="Shop" >
+        <action android:id="@+id/go_shop_from_master_to_detail"
+                app:destination="@id/shop_detail_screen" />
+    </fragment>
+
+    <fragment android:id="@+id/shop_detail_screen"
+              android:name="com.isanechek.myapplication.screens.shop.ShopDetailScreen"
+              android:label="ShopDetail" />
 
     <fragment
             android:id="@+id/chat_screen"
             android:name="com.isanechek.myapplication.screens.chat.ChatScreen"
             android:label="Chat" />
+
+
 </navigation>
