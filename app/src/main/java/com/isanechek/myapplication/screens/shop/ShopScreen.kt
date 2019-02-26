@@ -12,6 +12,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.isanechek.myapplication._drawable
 import com.isanechek.myapplication._id
 import com.isanechek.myapplication._layout
+import com.isanechek.myapplication.data.DbContract
+import com.isanechek.myapplication.data.entity.MarketEntity
 import com.isanechek.myapplication.data.models.market.Market
 import com.isanechek.myapplication.data.models.market.MarketItem
 import com.isanechek.myapplication.data.requests.VkMarketAllItemsRequest
@@ -26,12 +28,17 @@ import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.market_item_layout.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ShowScreen : BaseListScreen() {
 
     private val debug: DebugContract by inject()
+    private val db: DbContract by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +57,7 @@ class ShowScreen : BaseListScreen() {
 
     override fun onResume() {
         super.onResume()
-        loadData()
+        showData()
     }
 
     private fun loadData() {
@@ -68,40 +75,52 @@ class ShowScreen : BaseListScreen() {
                 val count = result.itemsSize
                 debug.log("Market All Items Size $count")
                 if (count > 0) {
-                    getRecyclerView()
-                        .bind(result.items, _layout.market_item_layout) { item: MarketItem ->
-                            market_item_title.text = item.title
-                            market_item_price.text = item.price.text
-                            GlideApp.with(market_item_cover.context)
-                                .load(item.coverUrl)
-                                .apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(8, 0)))
-                                .into(market_item_cover)
-
-                            market_item_container.onClick {
-                                val detailItemId = "${item.ownerId}_${item.id}"
-                                debug.log("Go to detail screen with id $detailItemId")
-                                findNavController().navigate(
-                                    _id.go_shop_from_master_to_detail,
-                                    bundleOf(
-                                        ShopDetailScreen.ARGS_MARKET_DETAIL_ID to detailItemId
-                                    )
-                                )
+                    GlobalScope.launch(Dispatchers.Main) {
+                        async {
+                            for (item in result.items) {
+                                db.insertItem(item)
                             }
+                        }.await()
 
-                            with(market_item_favorite) {
-                                setImageDrawable(if (item.favorite) getIcon(_drawable.ic_bookmark_black_24dp) else getIcon(_drawable.ic_bookmark_border_white_24dp))
-                                onClick {
-                                    if (item.favorite) {
-                                        // implementation remove item from bookmark
-                                    } else {
-                                        // implementation add item to bookmark
-                                    }
-                                }
-                            }
-                        }
+                        showData()
+                    }
                 }
             }
         })
+    }
+
+    private fun showData() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val data = async {
+                db.getItems()
+            }
+
+            val items = data.await()
+            if (items.isEmpty()) {
+                loadData()
+                return@launch
+            }
+            getRecyclerView()
+                .bind(items, _layout.market_item_layout) { item: MarketEntity ->
+                    market_item_title.text = item.title
+                    market_item_price.text = "цена ${item.price}"
+                    GlideApp.with(market_item_cover.context)
+                        .load(item.coverUrl)
+                        .apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(8, 0)))
+                        .into(market_item_cover)
+
+                    market_item_container.onClick {
+                        val detailItemId = "${item.ownerId}_${item.id}"
+                        debug.log("Go to detail screen with id $detailItemId")
+                        findNavController().navigate(
+                            _id.go_shop_from_master_to_detail,
+                            bundleOf(
+                                ShopDetailScreen.ARGS_MARKET_DETAIL_ID to detailItemId
+                            )
+                        )
+                    }
+                }
+        }
     }
 
     private fun getIcon(@DrawableRes iconId: Int) = ContextCompat.getDrawable(requireContext(), iconId)

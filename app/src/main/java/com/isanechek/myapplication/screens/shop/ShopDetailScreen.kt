@@ -21,9 +21,8 @@ import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.exceptions.VKApiExecutionException
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.market_detail_screen_layout.*
+import kotlinx.android.synthetic.main.market_detail_screen_layout2.*
 import kotlinx.android.synthetic.main.market_gallery_item_layout.*
-import kotlinx.android.synthetic.main.shop_detail_content_layout.*
 import kotlinx.android.synthetic.main.toolbar_x_layout.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -37,7 +36,7 @@ class ShopDetailScreen : BaseScreen() {
     private val itemId: String
         get() = arguments?.getString(ARGS_MARKET_DETAIL_ID) ?: String.empty()
 
-    override fun layoutId(): Int = _layout.market_detail_screen_layout
+    override fun layoutId(): Int = _layout.market_detail_screen_layout2
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -78,11 +77,12 @@ class ShopDetailScreen : BaseScreen() {
                     val id = item.getInt("id")
                     val ownerId = item.getInt("owner_id")
                     val title = item.getString("title")
-                    shop_detail_content_title.text = title
+//                    shop_detail_content_title.text = title
+                    toolbar_x_title.text = title
                     val description = item.getString("description")
                     shop_detail_content_description.text = description
                     val price = item.getJSONObject("price").getString("text")
-                    shop_detail_content_price.text = price
+                    shop_detail_content_price.text = "цена: $price"
                     val date = item.getLong("date")
                     val cover = item.getString("thumb_photo")
                     loadCover(cover)
@@ -148,16 +148,16 @@ class ShopDetailScreen : BaseScreen() {
     }
 
     private fun setupFab(bookmark: Boolean) {
-        with(shop_detail_fab) {
-            setImageDrawable(if (bookmark) getIcon(_drawable.ic_bookmark_black_24dp) else getIcon(_drawable.ic_bookmark_border_white_24dp))
-            onClick {
-                if (bookmark) {
-                    // implementation remove item from bookmark
-                } else {
-                    // implementation add item to bookmark
-                }
-            }
-        }
+//        with(shop_detail_fab) {
+//            setImageDrawable(if (bookmark) getIcon(_drawable.ic_bookmark_black_24dp) else getIcon(_drawable.ic_bookmark_border_white_24dp))
+//            onClick {
+//                if (bookmark) {
+//                    // implementation remove item from bookmark
+//                } else {
+//                    // implementation add item to bookmark
+//                }
+//            }
+//        }
     }
 
     private fun getIcon(@DrawableRes iconId: Int) = ContextCompat.getDrawable(requireContext(), iconId)
