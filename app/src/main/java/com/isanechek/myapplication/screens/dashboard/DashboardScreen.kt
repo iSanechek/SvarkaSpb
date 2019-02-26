@@ -57,6 +57,10 @@ class DashboardScreen : BaseScreen() {
         sq_bottom_left.onClick {
             goToScree(_id.go_from_dashboard_to_market)
         }
+
+        imageButton.onClick {
+            goToScree(_id.go_from_dashboard_to_about)
+        }
     }
 
 }

@@ -18,6 +18,9 @@
         <action android:id="@+id/go_from_dashboard_to_market"
                 app:destination="@id/shop_screen" />
 
+        <action android:id="@+id/go_from_dashboard_to_about"
+                app:destination="@id/about_screen" />
+
     </fragment>
 
     <fragment
@@ -42,5 +45,7 @@
             android:name="com.isanechek.myapplication.screens.chat.ChatScreen"
             android:label="Chat" />
 
-
+    <fragment android:id="@+id/about_screen"
+              android:name="com.isanechek.myapplication.screens.location.LocationScreen"
+              android:label="About" />
 </navigation>

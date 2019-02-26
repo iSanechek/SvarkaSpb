@@ -11,6 +11,6 @@ data class MarketEntity(val id: Int,
         const val COLUMN_OWNER_ID = "owner_id"
         const val COLUMN_TITLE = "title"
         const val COLUMN_COVER_URL = "cover_url"
-        const val COLUMN_PRICE = "prigit statce"
+        const val COLUMN_PRICE = "price"
     }
 }

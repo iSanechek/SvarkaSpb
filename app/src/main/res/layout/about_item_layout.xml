@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:id="@+id/about_item_container"
         android:layout_marginStart="@dimen/dp8"
         android:layout_marginEnd="@dimen/dp8"
         android:layout_marginTop="@dimen/dp2"
@@ -19,7 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:textColor="@color/colorAccent"
                 tools:text="@tools:sample/first_names"/>
     </FrameLayout>
