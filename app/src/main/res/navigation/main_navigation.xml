@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/main_navigation"
-            app:startDestination="@id/shop_screen">
+            app:startDestination="@id/dashboard_screen">
 
     <fragment
             android:id="@+id/dashboard_screen"
@@ -14,6 +14,9 @@
 
         <action android:id="@+id/go_from_dashboard_to_chat"
                 app:destination="@id/chat_screen" />
+
+        <action android:id="@+id/go_from_dashboard_to_market"
+                app:destination="@id/shop_screen" />
 
     </fragment>
 
