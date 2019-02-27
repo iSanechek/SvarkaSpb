@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.isanechek.myapplication.data.DatabaseHandler
 import com.isanechek.myapplication.data.DbContract
+import com.isanechek.myapplication.data.PhotosDataSource
 import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.PrefManagerImpl
 import org.koin.android.ext.koin.androidContext
@@ -27,6 +28,13 @@ val dataModule = module {
     single<DbContract> {
         DatabaseHandler(
             androidContext().applicationContext
+        )
+    }
+
+    single {
+        PhotosDataSource(
+            get(),
+            get()
         )
     }
 }

@@ -21,6 +21,9 @@
         <action android:id="@+id/go_from_dashboard_to_about"
                 app:destination="@id/about_screen" />
 
+        <action android:id="@+id/go_from_dashboard_to_photos"
+                app:destination="@id/photos_screen" />
+
     </fragment>
 
     <fragment
@@ -48,4 +51,8 @@
     <fragment android:id="@+id/about_screen"
               android:name="com.isanechek.myapplication.screens.location.LocationScreen"
               android:label="About" />
+
+    <fragment android:id="@+id/photos_screen"
+              android:name="com.isanechek.myapplication.screens.gallery.PhotosScreen"
+              android:label="Photos" />
 </navigation>

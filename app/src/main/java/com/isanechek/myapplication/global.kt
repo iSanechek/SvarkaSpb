@@ -12,6 +12,8 @@ import kotlinx.coroutines.Deferred
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.LayoutInflater
+import android.view.ViewGroup
 
 fun Context.sendEmail(subject: String,
                       senderMail: String,
@@ -89,7 +91,7 @@ object UserStatus {
      *  Папа AverdSoft!
      *  По всем косякам к нему.
      *  Бог как правило занят чем-то важным. :D
-     *  Ps. По заказам и налогам - тоже к нему. :D
+     *  Ps. По заказам - тоже к нему. :D
      */
     const val LOARD = 2937265
     /**
@@ -109,3 +111,6 @@ object UserStatus {
         else -> "Простой смертный"
     }
 }
+
+infix fun ViewGroup.inflate(layoutResId: Int): View =
+    LayoutInflater.from(context).inflate(layoutResId, this, false)

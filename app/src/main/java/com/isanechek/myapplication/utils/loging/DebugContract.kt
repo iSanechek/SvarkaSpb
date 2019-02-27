@@ -6,4 +6,6 @@ interface DebugContract {
     fun event(tag: String, event: String?)
     fun event(tag: String, events: Map<String, Any>)
     fun sendStackTrace(tag: String, exception: Throwable?)
+
+
 }

@@ -14,6 +14,9 @@ interface DbContract {
     fun getItem(id: Int) : MarketEntity
     fun getItems(): List<MarketEntity>
     fun insertItem(market: MarketItem)
+
+    fun savePhotos(items: List<Photo>)
+    fun getPhotos(): List<Photo>
 }
 
 class DatabaseHandler(
@@ -24,6 +27,7 @@ class DatabaseHandler(
     null,
     DatabaseHandler.DB_VERSION
 ) {
+
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE_MARKET = "CREATE TABLE ${MarketEntity.TABLE_NAME} (" +
                 "${MarketEntity.COLUMN_ID} $DB_COLUMN_INTEGER, " +
@@ -31,12 +35,23 @@ class DatabaseHandler(
                 "${MarketEntity.COLUMN_TITLE} $DB_COLUMN_TEXT, " +
                 "${MarketEntity.COLUMN_COVER_URL} $DB_COLUMN_TEXT, " +
                 "${MarketEntity.COLUMN_PRICE} $DB_COLUMN_TEXT);"
+
+        val CREATE_TABLE_PHOTOS = "CREATE TABLE ${Photo.TABLE_NAME} (" +
+                "${Photo.TABLE_COLUMN_ID} $DB_COLUMN_INTEGER, " +
+                "${Photo.TABLE_COLUMN_OWNER_ID} $DB_COLUMN_INTEGER, " +
+                "${Photo.TABLE_COLUMN_ALBUM_ID} $DB_COLUMN_INTEGER, " +
+                "${Photo.TABLE_COLUMN_SMALL_URL} $DB_COLUMN_TEXT, " +
+                "${Photo.TABLE_COLUMN_FULL_URL} $DB_COLUMN_TEXT);"
+
         db?.execSQL(CREATE_TABLE_MARKET)
+        db?.execSQL(CREATE_TABLE_PHOTOS)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         val DROP_TABLE_MARKET = "DROP TABLE IF EXISTS ${MarketEntity.TABLE_NAME}"
+        val DROP_TABLE_PHOTOS = "DROP TABLE IF EXISTS ${Photo.TABLE_NAME}"
         db?.execSQL(DROP_TABLE_MARKET)
+        db?.execSQL(DROP_TABLE_PHOTOS)
         onCreate(db)
     }
 
@@ -110,8 +125,51 @@ class DatabaseHandler(
         db.insert(MarketEntity.TABLE_NAME, null, v)
     }
 
+    override fun savePhotos(items: List<Photo>) {
+        val db = this@DatabaseHandler.writableDatabase
+        db.transaction {
+            for (item in items) {
+                val v = ContentValues()
+                with(v) {
+                    put(Photo.TABLE_COLUMN_ID, item.id)
+                    put(Photo.TABLE_COLUMN_OWNER_ID, item.ownerId)
+                    put(Photo.TABLE_COLUMN_ALBUM_ID, item.albumsId)
+                    put(Photo.TABLE_COLUMN_FULL_URL, item.fullUrl)
+                    put(Photo.TABLE_COLUMN_SMALL_URL, item.smallUrl)
+                }
+                db.insert(Photo.TABLE_NAME, null, v)
+            }
+        }
+        db.close()
+    }
+
+    override fun getPhotos(): List<Photo> {
+        val temp = mutableListOf<Photo>()
+        val db = this@DatabaseHandler.writableDatabase
+        val select = "SELECT * FROM ${Photo.TABLE_NAME}"
+        val cursor = db.rawQuery(select, null)
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    temp.add(
+                        Photo(
+                            id = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_ID)),
+                            ownerId = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_OWNER_ID)),
+                            albumsId = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_ALBUM_ID)),
+                            fullUrl = cursor.getString(cursor.getColumnIndex(Photo.TABLE_COLUMN_FULL_URL)),
+                            smallUrl = cursor.getString(cursor.getColumnIndex(Photo.TABLE_COLUMN_SMALL_URL))
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+        }
+        cursor.close()
+        db.close()
+        return temp
+    }
+
     companion object {
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 2
         private const val DB_NAME = "Tosno.db"
         private const val DB_COLUMN_INTEGER = "INTEGER"
         private const val DB_COLUMN_TEXT = "TEXT"
