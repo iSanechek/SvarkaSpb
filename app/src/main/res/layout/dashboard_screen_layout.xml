@@ -49,7 +49,7 @@
                    android:layout_gravity="center"
                    android:background="@drawable/circle_background"
                    android:padding="@dimen/dp8"
-                   app:srcCompat="@drawable/ic_place_black_24dp"
+                   app:srcCompat="@drawable/ic_work_black_24dp"
                    android:tint="#ffffff"/>
     </com.github.florent37.shapeofview.shapes.RoundRectView>
     <com.github.florent37.shapeofview.shapes.RoundRectView

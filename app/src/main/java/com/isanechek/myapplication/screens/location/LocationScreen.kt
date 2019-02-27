@@ -24,7 +24,7 @@ class LocationScreen : BaseListScreen() {
             id = VK,
             title = "Посетить группу в ВК",
             icon = 0,
-            data = ""
+            data = "https://vk.com/svarochnye_raboty_tosno"
         ),
         AboutItem(
             id = PHONE,

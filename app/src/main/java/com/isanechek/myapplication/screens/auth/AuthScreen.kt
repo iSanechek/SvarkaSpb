@@ -101,7 +101,6 @@ class AuthScreen : AppCompatActivity() {
                 VKScope.WALL,
                 VKScope.GROUPS,
                 VKScope.MARKET,
-                VKScope.MESSAGES,
                 VKScope.PHOTOS,
                 VKScope.VIDEO
             )

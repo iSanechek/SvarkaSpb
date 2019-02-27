@@ -10,8 +10,8 @@ import androidx.fragment.app.DialogFragment
 class WarningDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireActivity())
-            .setTitle("Предупреждение")
-            .setMessage("Мы не знаем откуда вы звоните, поэтому будте внимательны. Звонок будет совершон на Питерский номер.")
+            .setTitle("Внимание")
+            .setMessage("Звонок будет совершён на номер зарегистрированный в Санкт-Петербурге.")
             .setPositiveButton("Позвонить") { dialog, _ ->
                 val i = Intent(Intent.ACTION_DIAL)
                 i.data = Uri.parse("tel:+79312070664")

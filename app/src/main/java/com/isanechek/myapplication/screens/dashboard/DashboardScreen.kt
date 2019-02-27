@@ -23,8 +23,10 @@ class DashboardScreen : BaseScreen() {
     }
 
     override fun onDestroy() {
+        if (banner_view != null) {
+            banner_view.removeHandler()
+        }
         super.onDestroy()
-        banner_view.removeHandler()
     }
 
     private val bannerClickListener = object : OnBannerClickListener<Banner> {
@@ -34,23 +36,23 @@ class DashboardScreen : BaseScreen() {
     }
 
     private fun handleSetupUi() {
-        banner_view.apply {
-            delayTime = 2000
-            dotsSelector = _drawable.banner
-            pageNumViewBottomMargin = 16
-            pageNumViewLeftMargin = 16
-            pageNumViewTopMargin = 16
-            pageNumViewRightMargin = 16
-            imageLoaderManager = ImageManager()
-            onBannerClickListener = bannerClickListener
-        }
-            .initPageNumView()
-            .initTips()
-            .resource(SimpleData.initModel())
+//        banner_view.apply {
+//            delayTime = 2000
+//            dotsSelector = _drawable.banner
+//            pageNumViewBottomMargin = 16
+//            pageNumViewLeftMargin = 16
+//            pageNumViewTopMargin = 16
+//            pageNumViewRightMargin = 16
+//            imageLoaderManager = ImageManager()
+//            onBannerClickListener = bannerClickListener
+//        }
+//            .initPageNumView()
+//            .initTips()
+//            .resource(SimpleData.initModel())
 
         // implementation click listener
 
-        sq_bottom_right.onClick {
+        sq_top_left.onClick {
             goToScree(_id.go_from_dashboard_to_info)
         }
 
