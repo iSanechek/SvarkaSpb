@@ -22,4 +22,6 @@ object SimpleData {
         modules.add(Banner(IMAGE_URL_4, TITLE_4))
         return modules
     }
+
+
 }

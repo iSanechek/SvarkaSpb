@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.isanechek.myapplication._drawable
 import com.isanechek.myapplication._layout
+import com.isanechek.myapplication.actionView
 import com.isanechek.myapplication.data.models.Info
 import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.screens.base.BaseListScreen
@@ -23,7 +24,7 @@ class InfoScreen : BaseListScreen() {
                 info_item_title.text = info.title
                 info_item_description.text = info.message
                 info_item_action.onClick {
-
+                    requireActivity().actionView { "https://vk.com/svarochnye_raboty_tosno" }
                 }
             }
     }

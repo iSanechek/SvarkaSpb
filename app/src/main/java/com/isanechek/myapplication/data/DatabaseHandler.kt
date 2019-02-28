@@ -17,6 +17,7 @@ interface DbContract {
 
     fun savePhotos(items: List<Photo>)
     fun getPhotos(): List<Photo>
+    fun clearPhotos()
 }
 
 class DatabaseHandler(
@@ -27,6 +28,7 @@ class DatabaseHandler(
     null,
     DatabaseHandler.DB_VERSION
 ) {
+
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE_MARKET = "CREATE TABLE ${MarketEntity.TABLE_NAME} (" +
@@ -128,6 +130,7 @@ class DatabaseHandler(
     override fun savePhotos(items: List<Photo>) {
         val db = this@DatabaseHandler.writableDatabase
         db.transaction {
+            db.delete(Photo.TABLE_NAME, null, null)
             for (item in items) {
                 val v = ContentValues()
                 with(v) {
@@ -166,6 +169,13 @@ class DatabaseHandler(
         cursor.close()
         db.close()
         return temp
+    }
+
+    override fun clearPhotos() {
+        val db = this.writableDatabase
+        db.transaction {
+            db.delete(Photo.TABLE_NAME, null, null)
+        }
     }
 
     companion object {

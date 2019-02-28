@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
@@ -13,6 +15,7 @@ import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.models.Three
 import com.isanechek.myapplication.data.requests.VkMarketItemDetailRequest
 import com.isanechek.myapplication.screens.base.BaseScreen
+import com.isanechek.myapplication.screens.viewer.ViewerScreen
 import com.isanechek.myapplication.utils.GlideApp
 import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.loging.DebugContract
@@ -97,6 +100,10 @@ class ShopDetailScreen : BaseScreen() {
                         val viewsCount = item.getInt("views_count")
                     }
 
+                    shop_detail_content_message_btn.onClick {
+                        requireActivity().actionView { "https://vk.com/svarochnye_raboty_tosno" }
+                    }
+
                 } catch (ex: JSONException) {
                     debug.sendStackTrace("Market Detail Parser Error!", ex)
                     showErrorView()
@@ -109,7 +116,7 @@ class ShopDetailScreen : BaseScreen() {
         with(shop_detail_content_gallery) {
             layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             adapter = GalleryAdapter(data) { item, position ->
-
+                findNavController().navigate(_id.go_from_shop_detail_to_viewer, bundleOf(ViewerScreen.ARGS to item.url))
             }
             setHasFixedSize(true)
         }

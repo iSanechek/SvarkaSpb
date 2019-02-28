@@ -24,6 +24,9 @@
         <action android:id="@+id/go_from_dashboard_to_photos"
                 app:destination="@id/photos_screen" />
 
+        <action android:id="@+id/go_from_dashboard_to_viewer"
+                app:destination="@id/viewer_screen" />
+
     </fragment>
 
     <fragment
@@ -41,7 +44,10 @@
 
     <fragment android:id="@+id/shop_detail_screen"
               android:name="com.isanechek.myapplication.screens.shop.ShopDetailScreen"
-              android:label="ShopDetail" />
+              android:label="ShopDetail" >
+        <action android:id="@+id/go_from_shop_detail_to_viewer"
+                app:destination="@id/viewer_screen" />
+    </fragment>
 
     <fragment
             android:id="@+id/chat_screen"
@@ -54,5 +60,12 @@
 
     <fragment android:id="@+id/photos_screen"
               android:name="com.isanechek.myapplication.screens.gallery.PhotosScreen"
-              android:label="Photos" />
+              android:label="Photos" >
+        <action android:id="@+id/go_from_photos_to_viewer"
+                app:destination="@id/viewer_screen" />
+    </fragment>
+
+    <fragment android:id="@+id/viewer_screen"
+              android:name="com.isanechek.myapplication.screens.viewer.ViewerScreen"
+              android:label="Viewer" />
 </navigation>
