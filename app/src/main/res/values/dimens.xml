@@ -4,4 +4,7 @@
     <dimen name="dp2">2dp</dimen>
     <dimen name="dp16">16dp</dimen>
     <dimen name="dp4">4dp</dimen>
+    <dimen name="dashboard_radius_item">24dp</dimen>
+    <dimen name="dashboard_item_height">150dp</dimen>
+    <dimen name="dashboard_btn_size">36dp</dimen>
 </resources>

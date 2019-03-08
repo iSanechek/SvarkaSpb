@@ -114,3 +114,5 @@ object UserStatus {
 
 infix fun ViewGroup.inflate(layoutResId: Int): View =
     LayoutInflater.from(context).inflate(layoutResId, this, false)
+
+const val SERVICE_KEY = "dcc256badcc256badcc256ba15dcaa23eaddcc2dcc256ba80953e531fa9b0aff342e190"

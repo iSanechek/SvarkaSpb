@@ -9,15 +9,27 @@
                  android:icon="@mipmap/ic_launcher"
                  android:label="@string/app_name"
                  android:supportsRtl="true"
-                 android:theme="@style/AppTheme"
                  tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+                  android:theme="@style/AppTheme"/>
+
+        <activity android:name=".screens.auth.AuthScreen"
+                  android:parentActivityName=".MainActivity"
+                  android:theme="@style/AppTheme"/>
+
+        <activity android:name=".SplashActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".screens.auth.AuthScreen" android:parentActivityName=".MainActivity" />
+
+        <activity android:name=".utils.DebugActivity" >
+
+        </activity>
     </application>
 
 </manifest>

@@ -8,11 +8,20 @@ interface PrefManager {
     var loginWarningState: Boolean
     var token: String
     var isAdmin: Int
+    var lastUpdateTime: Long
 }
 
 class PrefManagerImpl(
     private val preferences: SharedPreferences
 ) : PrefManager {
+
+    override var lastUpdateTime: Long
+        get() = preferences.getLong("dasboard.last.update.time", 0) ?: 0
+        set(value) {
+            preferences.edit {
+                putLong("dasboard.last.update.time", value)
+            }
+        }
 
     override var isAdmin: Int
         get() = preferences.getInt("user.is.admin", 0)

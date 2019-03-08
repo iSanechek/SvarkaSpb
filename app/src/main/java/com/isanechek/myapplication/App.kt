@@ -30,6 +30,7 @@ class App : Application() {
         VK.initialize(this)
 
 
+
         startKoin(
             this, listOf(
                 appModule,

@@ -18,6 +18,7 @@ interface DbContract {
     fun savePhotos(items: List<Photo>)
     fun getPhotos(): List<Photo>
     fun clearPhotos()
+    fun getPhoto(smallUrl: String): Photo
 }
 
 class DatabaseHandler(
@@ -28,7 +29,6 @@ class DatabaseHandler(
     null,
     DatabaseHandler.DB_VERSION
 ) {
-
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_TABLE_MARKET = "CREATE TABLE ${MarketEntity.TABLE_NAME} (" +
@@ -59,7 +59,7 @@ class DatabaseHandler(
 
     override fun getItem(id: Int) : MarketEntity {
         val db = this@DatabaseHandler.writableDatabase
-        val select = "SELECT * FROM ${MarketEntity.TABLE_NAME} WHERE ${MarketEntity.COLUMN_ID} = $id"
+        val select = "SELECT * FROM ${MarketEntity.TABLE_NAME} WHERE ${MarketEntity.COLUMN_ID} =:$id"
         val cursor = db.rawQuery(select, null)
         cursor?.moveToFirst()
         val _id = cursor.getInt(cursor.getColumnIndex(MarketEntity.COLUMN_ID))
@@ -144,6 +144,27 @@ class DatabaseHandler(
             }
         }
         db.close()
+    }
+
+    override fun getPhoto(smallUrl: String): Photo {
+        val db = this@DatabaseHandler.writableDatabase
+        val select = "SELECT * FROM ${Photo.TABLE_NAME} WHERE ${Photo.TABLE_COLUMN_SMALL_URL} =:$smallUrl"
+        val cursor = db.rawQuery(select, null)
+        cursor?.moveToFirst()
+        val _id = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_ID))
+        val _ownerId = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_OWNER_ID))
+        val _albumsId = cursor.getInt(cursor.getColumnIndex(Photo.TABLE_COLUMN_ALBUM_ID))
+        val _fullUrl = cursor.getString(cursor.getColumnIndex(Photo.TABLE_COLUMN_FULL_URL))
+        val _smallUrl = cursor.getString(cursor.getColumnIndex(Photo.TABLE_COLUMN_SMALL_URL))
+        cursor.close()
+        db.close()
+        return Photo(
+            id = _id,
+            ownerId = _ownerId,
+            albumsId = _albumsId,
+            fullUrl = _fullUrl,
+            smallUrl = _smallUrl
+        )
     }
 
     override fun getPhotos(): List<Photo> {

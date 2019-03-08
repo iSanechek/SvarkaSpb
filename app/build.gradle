@@ -79,6 +79,7 @@ dependencies {
     def coroutines_version = '1.0.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
     implementation 'androidx.core:core-ktx:1.1.0-alpha04'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -96,17 +97,26 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
-    implementation 'com.github.florent37:shapeofview:1.4.6'
     implementation 'com.vk:androidsdk:2.0.2'
 
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
 
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.afollestad.material-dialogs:core:2.0.3'
+    implementation 'com.github.florent37:shapeofview:1.4.6'
     api 'com.ydevelop:bannerlayout:1.1.5'
 
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
+
+    def ok_version = '3.12.0'
+    implementation "com.squareup.okhttp3:okhttp:$ok_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$ok_version"
+
+    def retrofit_version = '2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
     implementation 'com.yandex.android:mobileads:2.80'
     implementation 'com.yandex.android:mobmetricalib:3.5.1'
