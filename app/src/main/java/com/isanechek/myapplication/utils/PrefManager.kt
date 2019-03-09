@@ -9,14 +9,22 @@ interface PrefManager {
     var token: String
     var isAdmin: Int
     var lastUpdateTime: Long
+    var showLicense: Boolean
 }
 
 class PrefManagerImpl(
     private val preferences: SharedPreferences
 ) : PrefManager {
+    override var showLicense: Boolean
+        get() = preferences.getBoolean("show_license", true)
+        set(value) {
+            preferences.edit {
+                putBoolean("show_license", value)
+            }
+        }
 
     override var lastUpdateTime: Long
-        get() = preferences.getLong("dasboard.last.update.time", 0) ?: 0
+        get() = preferences.getLong("dasboard.last.update.time", 0)
         set(value) {
             preferences.edit {
                 putLong("dasboard.last.update.time", value)

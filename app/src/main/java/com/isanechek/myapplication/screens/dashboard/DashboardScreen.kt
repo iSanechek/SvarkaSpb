@@ -17,6 +17,7 @@ import com.isanechek.myapplication.screens.base.BaseScreen
 import com.isanechek.myapplication.screens.viewer.ViewerScreen
 import com.isanechek.myapplication.setVisible
 import com.isanechek.myapplication.utils.ImageManager
+import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.loging.DebugContract
 import kotlinx.android.synthetic.main.dashboard_screen_layout2.*
 import org.koin.android.ext.android.inject
@@ -26,6 +27,14 @@ class DashboardScreen : BaseScreen() {
 
     private val debug: DebugContract by inject()
     private val vm: DashboardViewModel by viewModel()
+    private val pref: PrefManager by inject()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (pref.showLicense) {
+            goToScree(_id.go_from_dashboard_to_license)
+        }
+    }
 
     override fun layoutId(): Int = _layout.dashboard_screen_layout2
 

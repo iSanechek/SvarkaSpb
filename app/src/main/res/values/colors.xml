@@ -5,4 +5,5 @@
     <color name="colorAccent">#000000</color>
     <color name="chat_input_bg_color">#979696</color>
     <color name="market_title_item_background">#8C000000</color>
+    <color name="license_short_action_color">#B71C1C</color>
 </resources>

@@ -27,6 +27,11 @@
         <action android:id="@+id/go_from_dashboard_to_viewer"
                 app:destination="@id/viewer_screen" />
 
+        <action android:id="@+id/go_from_dashboard_to_license"
+                app:destination="@id/license_screen"
+                app:popUpTo="@id/dashboard_screen"
+                app:popUpToInclusive="true" />
+
     </fragment>
 
     <fragment
@@ -68,4 +73,12 @@
     <fragment android:id="@+id/viewer_screen"
               android:name="com.isanechek.myapplication.screens.viewer.ViewerScreen"
               android:label="Viewer" />
+
+    <fragment android:id="@+id/license_screen"
+              android:name="com.isanechek.myapplication.screens.license.LicenseScreen"
+              android:label="License" />
+
+    <fragment android:id="@+id/empty_screen"
+              android:name="com.isanechek.myapplication.screens.empty.EmptyScreen"
+              android:label="Empty" />
 </navigation>
