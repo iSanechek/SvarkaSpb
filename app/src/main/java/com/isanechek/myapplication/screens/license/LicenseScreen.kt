@@ -30,7 +30,7 @@ class LicenseScreen : BaseScreen() {
                     dialog.dismiss()
                     closeScreen()
                 }
-                negativeButton(text = "Не, до свидание.") { dialog ->
+                negativeButton(text = "До свидание") { dialog ->
                     dialog.dismiss()
                     showNegativeDialog()
                 }
