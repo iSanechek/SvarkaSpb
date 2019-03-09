@@ -78,7 +78,4 @@
               android:name="com.isanechek.myapplication.screens.license.LicenseScreen"
               android:label="License" />
 
-    <fragment android:id="@+id/empty_screen"
-              android:name="com.isanechek.myapplication.screens.empty.EmptyScreen"
-              android:label="Empty" />
 </navigation>

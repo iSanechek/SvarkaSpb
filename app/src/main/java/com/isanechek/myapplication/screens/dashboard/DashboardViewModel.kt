@@ -52,11 +52,13 @@ class DashboardViewModel(private val debug: DebugContract,
         val fromDb = db.getPhotos()
         when {
             fromDb.isEmpty() -> {
+                debug.log("Db is empty")
                 dbIsEmpty = true
                 loadFromNetwork = true
             }
             else -> {
                 liveData.postValue(fromDb)
+                debug.log("Db is not empty ${fromDb.size}")
                 val now = System.currentTimeMillis()
                 val last = pref.lastUpdateTime
                 val timex = now - last
@@ -66,26 +68,28 @@ class DashboardViewModel(private val debug: DebugContract,
             }
         }
 
+        debug.log("Load from network $loadFromNetwork")
         if (loadFromNetwork) {
             loadStatus.postValue(LoadStatus.Loading)
             val data = loadData().string()
+            debug.log("Data from network $data")
             val temp = mutableListOf<Photo>()
             try {
                 val jo = JSONObject(data)
-                val response = jo.getJSONObject("response")
-                val items = response.getJSONArray("items")
+                val items = jo.getJSONArray("response")
                 for (i in 0 until items.length()) {
                     val item = items.getJSONObject(i)
                     val urls = getUrls(item.getJSONArray("sizes"))
                     temp.add(Photo(
-                        id = item.getInt("id"),
+                        id = item.getInt("pid"),
                         ownerId = item.getInt("owner_id"),
-                        albumsId = item.getInt("album_id"),
+                        albumsId = 0,
                         smallUrl = urls.first,
                         fullUrl = urls.second
                     ))
                 }
 
+                debug.log("Temp size ${temp.size}")
                 if (temp.isNotEmpty()) {
                     loadStatus.postValue(LoadStatus.Done)
                     liveData.postValue(temp)
@@ -99,6 +103,7 @@ class DashboardViewModel(private val debug: DebugContract,
                 }
 
             } catch (e: Exception) {
+                debug.log("Error ${e.message}")
                 loadStatus.postValue(LoadStatus.Fail(LoadStatus.Error.UnknownError))
             }
         }
@@ -112,8 +117,8 @@ class DashboardViewModel(private val debug: DebugContract,
             val item = ja.getJSONObject(i)
             val type = item.getString("type")
             when (type) {
-                FULL_TYPE -> full = item.getString("url")
-                SMALL_TYPE -> small = item.getString("url")
+                FULL_TYPE -> full = item.getString("src").replaceAfter(".jpg", "")
+                SMALL_TYPE -> small = item.getString("src").replaceAfter(".jpg", "")
             }
         }
         return Pair(small, full)

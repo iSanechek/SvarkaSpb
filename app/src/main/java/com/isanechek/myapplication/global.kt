@@ -11,6 +11,7 @@ import com.isanechek.myapplication.utils.glide.ProgressInterceptor
 import kotlinx.coroutines.Deferred
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -116,3 +117,11 @@ infix fun ViewGroup.inflate(layoutResId: Int): View =
     LayoutInflater.from(context).inflate(layoutResId, this, false)
 
 const val SERVICE_KEY = "dcc256badcc256badcc256ba15dcaa23eaddcc2dcc256ba80953e531fa9b0aff342e190"
+const val VIBER_PACKAGE = "com.viber.voip"
+
+fun isAppInstalledOrNot(ctx: Context, uri: String): Boolean = try {
+    ctx.packageManager.getApplicationInfo(uri, 0)
+    true
+} catch (e: PackageManager.NameNotFoundException) {
+    false
+}
