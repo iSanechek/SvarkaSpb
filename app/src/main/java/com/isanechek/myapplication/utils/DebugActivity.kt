@@ -12,7 +12,7 @@ class DebugActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(_layout.dashboard_screen_layout2)
+        setContentView(_layout.dashboard_screen_layout)
 
         vm.loadPhotos()
 

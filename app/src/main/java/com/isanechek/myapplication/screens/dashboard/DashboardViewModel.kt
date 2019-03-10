@@ -62,8 +62,12 @@ class DashboardViewModel(private val debug: DebugContract,
                 val now = System.currentTimeMillis()
                 val last = pref.lastUpdateTime
                 val timex = now - last
-                if (timex > TimeUnit.MILLISECONDS.toHours(8)) {
+                debug.log("time last $last")
+                debug.log("time timex $timex")
+                if (timex > 28800000) {
                     loadFromNetwork = true
+                    debug.log("save time $now")
+                    pref.lastUpdateTime = now
                 }
             }
         }

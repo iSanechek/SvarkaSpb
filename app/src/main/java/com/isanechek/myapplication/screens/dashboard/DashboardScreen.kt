@@ -22,11 +22,9 @@ import com.isanechek.myapplication.screens.viewer.ViewerScreen
 import com.isanechek.myapplication.utils.ImageManager
 import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.loging.DebugContract
-import kotlinx.android.synthetic.main.dashboard_screen_layout2.*
+import kotlinx.android.synthetic.main.dashboard_screen_layout.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.net.Uri.fromParts
-
 
 
 class DashboardScreen : BaseScreen() {
@@ -42,7 +40,7 @@ class DashboardScreen : BaseScreen() {
         }
     }
 
-    override fun layoutId(): Int = _layout.dashboard_screen_layout2
+    override fun layoutId(): Int = _layout.dashboard_screen_layout
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -100,9 +98,9 @@ class DashboardScreen : BaseScreen() {
     }
 
     private fun actionDialogShow(isMessage: Boolean) {
-        val items = mutableListOf<AboutItem>()
+        val list = mutableListOf<AboutItem>()
         if (isMessage) {
-            items.add(
+            list.add(
                 AboutItem(
                     id = SMS_ID,
                     title = "Написать смс",
@@ -111,7 +109,7 @@ class DashboardScreen : BaseScreen() {
                 )
             )
             if (isAppInstalledOrNot(requireActivity(), VIBER_PACKAGE)) {
-                items.add(
+                list.add(
                     AboutItem(
                         id = SMS_VIBER_ID,
                         title = "Написать в viber",
@@ -120,7 +118,7 @@ class DashboardScreen : BaseScreen() {
                     )
                 )
             }
-            items.add(
+            list.add(
                 AboutItem(
                     id = VK_ID,
                     title = "Написать в Vk",
@@ -129,18 +127,18 @@ class DashboardScreen : BaseScreen() {
                 )
             )
         } else {
-            items.add(
+            list.add(
                 AboutItem(
-                    id = SMS_ID,
+                    id = CALL_ID,
                     title = "Позвонить",
                     data = "+79312070664",
                     icon = 0
                 )
             )
             if (isAppInstalledOrNot(requireActivity(), VIBER_PACKAGE)) {
-                items.add(
+                list.add(
                     AboutItem(
-                        id = SMS_VIBER_ID,
+                        id = CALL_VIBER_ID,
                         title = "Позвонить в viber",
                         data = "+79312070664",
                         icon = 0
@@ -150,28 +148,26 @@ class DashboardScreen : BaseScreen() {
         }
 
         MaterialDialog(requireActivity()).show {
-            listItems(items = items.map {
+            listItems(items = list.map {
                 it.title
             }.toList()) { dialog, index, _ ->
-                val item = items[index]
+                val item = list[index]
+                debug.log("item click ${item.id}")
+                debug.log("item click ${item.title}")
                 when (item.id) {
                     SMS_VIBER_ID -> startViber(item.data)
                     CALL_VIBER_ID -> startViber(item.data)
-                    SMS_ID -> startActivity(Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", item.data, null)))
+                    SMS_ID -> requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", item.data, null)))
                     CALL_ID -> {
                         debug.log("call intent")
                         val i = Intent(Intent.ACTION_DIAL)
                         i.data = Uri.parse("tel:+79312070664")
-                        startActivity(i)
+                        requireActivity().startActivity(i)
                     }
                 }
                 dialog.dismiss()
             }
         }
-    }
-
-    private fun start(uri: String) {
-        requireActivity().actionView { uri }
     }
 
     private fun startViber(number: String) {
@@ -199,7 +195,7 @@ class DashboardScreen : BaseScreen() {
         vm.liveData.observe(this, Observer { d ->
             d ?: return@Observer
             dashboard_banner_view.apply {
-                delayTime = 2000
+                delayTime = 5000
                 bannerTransformerType = BannerTransformer.ANIMATION_ACCORDION
                 imageLoaderManager = ImageManager()
                 onBannerClickListener = bannerClickListener
