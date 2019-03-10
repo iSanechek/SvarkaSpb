@@ -27,13 +27,16 @@ class ViewerScreen : BaseScreen() {
         super.onActivityCreated(savedInstanceState)
 
         val url = if (urlFull.isNotEmpty()) urlFull else urlSmall
-        if (url.isNotEmpty()) {
-            ProgressInterceptor.addListener(url, CustomProgressListener(viewer_screen_progress))
-            GlideApp.with(this).load(url).into(PhotoDetailGlideDrawableImageViewTarget(viewer_image, viewer_screen_progress, url) {
-                Toast.makeText(requireActivity(), "Не удалось загрузить изображение", Toast.LENGTH_SHORT).show()
-            })
-        } else {
-            Toast.makeText(requireActivity(), "Ой. Что-то пошло не так.", Toast.LENGTH_SHORT).show()
+        when {
+            url.isNotEmpty() -> {
+                ProgressInterceptor.addListener(url, CustomProgressListener(viewer_screen_progress))
+                GlideApp.with(this)
+                    .load(url)
+                    .into(PhotoDetailGlideDrawableImageViewTarget(viewer_image, viewer_screen_progress, url) {
+                        Toast.makeText(requireActivity(), "Не удалось загрузить изображение", Toast.LENGTH_SHORT).show()
+                    })
+            }
+            else -> Toast.makeText(requireActivity(), "Ой. Что-то пошло не так.", Toast.LENGTH_SHORT).show()
         }
 
         viewer_close_btn.onClick {
