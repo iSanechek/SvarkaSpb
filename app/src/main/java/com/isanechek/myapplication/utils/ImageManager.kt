@@ -21,6 +21,7 @@ class ImageManager : ImageLoaderManager<Banner> {
             .applyDefaultRequestOptions(requestOptions)
             .load(model.bannerUrl)
             .apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(8, 0)))
+            .centerCrop()
             .placeholder(_drawable.ic_photo_black_96dp)
             .error(_drawable.ic_broken_image_black_96dp)
             .fallback(_drawable.ic_photo_black_96dp)

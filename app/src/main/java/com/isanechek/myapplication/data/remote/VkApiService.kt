@@ -16,6 +16,7 @@ interface VkApiService {
         @Query("skip_hidden") skipHidden: Int,
         @Query("extended") extended: Int,
         @Query("count") count: Int,
+        @Query("offset") offset: Int,
         @Query("version") versionApi: String
     ): Deferred<ResponseBody>
 }

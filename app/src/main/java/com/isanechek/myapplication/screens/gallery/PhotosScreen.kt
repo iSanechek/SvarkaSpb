@@ -30,13 +30,6 @@ class PhotosScreen : BaseListScreen() {
         override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean = oldItem == newItem
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (!VK.isLoggedIn()) {
-            requireActivity().startActivity(Intent(requireActivity(), AuthScreen::class.java))
-        }
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -44,8 +37,6 @@ class PhotosScreen : BaseListScreen() {
         setupCloseButton(_drawable.ic_close_black_24dp) {
             closeScreen()
         }
-
-        if (!VK.isLoggedIn()) return
 
         vm.progress.observe(this, progressObserver)
         getRecyclerView().bind(diffCallback, _layout.photo_item_layout) { photo: Photo ->

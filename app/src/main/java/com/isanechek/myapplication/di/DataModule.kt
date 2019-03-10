@@ -66,6 +66,7 @@ val dataModule = module {
     single {
         PhotosDataSource(
             get(),
+            get(),
             get()
         )
     }

@@ -118,14 +118,14 @@ class DashboardScreen : BaseScreen() {
                     )
                 )
             }
-            list.add(
-                AboutItem(
-                    id = VK_ID,
-                    title = "Написать в Vk",
-                    data = "",
-                    icon = 0
-                )
-            )
+//            list.add(
+//                AboutItem(
+//                    id = VK_ID,
+//                    title = "Написать в Vk",
+//                    data = "",
+//                    icon = 0
+//                )
+//            )
         } else {
             list.add(
                 AboutItem(
