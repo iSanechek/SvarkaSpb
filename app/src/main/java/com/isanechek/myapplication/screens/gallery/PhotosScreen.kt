@@ -38,6 +38,8 @@ class PhotosScreen : BaseListScreen() {
             closeScreen()
         }
 
+        bindAds("R-M-DEMO-320x50")
+
         vm.progress.observe(this, progressObserver)
         getRecyclerView().bind(diffCallback, _layout.photo_item_layout) { photo: Photo ->
             GlideApp.with(photo_item_cover.context)
