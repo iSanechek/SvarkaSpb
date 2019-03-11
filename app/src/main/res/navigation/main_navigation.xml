@@ -16,16 +16,22 @@
                 app:destination="@id/chat_screen" />
 
         <action android:id="@+id/go_from_dashboard_to_market"
-                app:destination="@id/shop_screen" />
+                app:destination="@id/shop_screen"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"/>
 
         <action android:id="@+id/go_from_dashboard_to_about"
                 app:destination="@id/about_screen" />
 
         <action android:id="@+id/go_from_dashboard_to_photos"
-                app:destination="@id/photos_screen" />
+                app:destination="@id/photos_screen"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right"  />
 
         <action android:id="@+id/go_from_dashboard_to_viewer"
-                app:destination="@id/viewer_screen" />
+                app:destination="@id/viewer_screen"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_right" />
 
         <action android:id="@+id/go_from_dashboard_to_license"
                 app:destination="@id/license_screen"

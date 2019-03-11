@@ -6,11 +6,8 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.request.RequestOptions
-import com.isanechek.myapplication._drawable
-import com.isanechek.myapplication._id
-import com.isanechek.myapplication._layout
+import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.Photo
-import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.screens.auth.AuthScreen
 import com.isanechek.myapplication.screens.base.BaseListScreen
 import com.isanechek.myapplication.screens.base.bind
@@ -38,7 +35,7 @@ class PhotosScreen : BaseListScreen() {
             closeScreen()
         }
 
-        bindAds("R-M-DEMO-320x50")
+        bindAds(if (BuildConfig.DEBUG) "R-M-DEMO-320x50" else "R-M-354145-2")
 
         vm.progress.observe(this, progressObserver)
         getRecyclerView().bind(diffCallback, _layout.photo_item_layout) { photo: Photo ->

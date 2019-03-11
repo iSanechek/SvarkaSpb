@@ -66,7 +66,7 @@ class InfoScreen : BaseListScreen() {
             findNavController().navigateUp()
         }
 
-        bindAds("R-M-DEMO-320x50")
+        bindAds(if (BuildConfig.DEBUG) "R-M-DEMO-320x50" else "R-M-354145-1")
         getRecyclerView()
             .bind(InfoData.inits(), _layout.info_item_layout) { info: Info ->
                 info_item_title.text = info.title
