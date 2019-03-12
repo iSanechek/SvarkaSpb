@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.info_item_layout.view.*
 
 class InfoScreen : BaseListScreen() {
 
-    private val list = listOf(
+    private val list = mutableListOf(
         AboutItem(
             id = VK_ID,
             icon = 0,
@@ -40,16 +40,10 @@ class InfoScreen : BaseListScreen() {
             title = "Позвонить"
         ),
         AboutItem(
-            id = VIBER_ID,
-            icon = 0,
-            data = "+79312070664",
-            title = "Написать в viber"
-        ),
-        AboutItem(
             id = COPY_VK_ID,
             icon = 0,
             data = "https://vk.com/svarochnye_raboty_tosno",
-            title = "Скопировать url вк"
+            title = "Скопировать адрес группы вк"
         ),
         AboutItem(
             id = COPY_PHONE_ID,
@@ -67,6 +61,20 @@ class InfoScreen : BaseListScreen() {
         }
 
         bindAds(if (BuildConfig.DEBUG) "R-M-DEMO-320x50" else "R-M-354145-1")
+
+        if (isAppInstalledOrNot(requireActivity(), VIBER_PACKAGE)) {
+                list.add(
+                    AboutItem(
+            id = VIBER_ID,
+            icon = 0,
+            data = "+79312070664",
+            title = "Написать в viber"
+        )
+                )
+
+                 
+            }
+
         getRecyclerView()
             .bind(InfoData.inits(), _layout.info_item_layout) { info: Info ->
                 info_item_title.text = info.title

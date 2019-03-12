@@ -38,7 +38,7 @@
                         android:layout_marginEnd="@dimen/dp8"
                         app:strokeWidth="1dp"
                         app:strokeColor="@color/colorAccent"
-                        android:text="До свидание"/>
+                        android:text="До свидания"/>
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/license_is_ok"
                         android:layout_width="wrap_content"
