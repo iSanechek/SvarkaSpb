@@ -18,9 +18,9 @@ class ImageManager : ImageLoaderManager<Banner> {
         val iv = ImageView(container.context)
 
         GlideApp.with(iv.context)
+            .applyDefaultRequestOptions(requestOptions)
             .load(model.bannerUrl)
             .apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(8, 0)))
-            .applyDefaultRequestOptions(requestOptions)
             .placeholder(_drawable.ic_photo_black_96dp)
             .error(_drawable.ic_broken_image_black_96dp)
             .fallback(_drawable.ic_photo_black_96dp)

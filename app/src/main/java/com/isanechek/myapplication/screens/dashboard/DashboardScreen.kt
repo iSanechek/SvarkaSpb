@@ -32,6 +32,7 @@ class DashboardScreen : BaseScreen() {
     private val debug: DebugContract by inject()
     private val vm: DashboardViewModel by viewModel()
     private val pref: PrefManager by inject()
+    private var destroy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,7 @@ class DashboardScreen : BaseScreen() {
         if (dashboard_banner_view != null) {
             dashboard_banner_view.removeHandler()
         }
+        destroy = true
         super.onDestroy()
     }
 
@@ -194,7 +196,8 @@ class DashboardScreen : BaseScreen() {
 
         vm.liveData.observe(this, Observer { d ->
             d ?: return@Observer
-            dashboard_banner_view.apply {
+            if (!destroy) {
+                dashboard_banner_view.apply {
                 delayTime = 5000
                 bannerTransformerType = BannerTransformer.ANIMATION_ACCORDION
                 imageLoaderManager = ImageManager()
@@ -202,6 +205,7 @@ class DashboardScreen : BaseScreen() {
             }
                 .resource(d.map { it.transform() }.toMutableList())
                 .switchBanner(true)
+            }
         })
     }
 
