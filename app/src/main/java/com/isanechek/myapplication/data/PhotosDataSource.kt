@@ -1,5 +1,6 @@
 package com.isanechek.myapplication.data
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
 import com.isanechek.myapplication.SERVICE_KEY
@@ -69,12 +70,13 @@ class PhotosDataSource(private val debug: DebugContract,
         val data = loadData(limit, offset).string()
         try {
             val jo = JSONObject(data)
-            val items = jo.getJSONArray("response")
+            val items = jo.getJSONObject("response").getJSONArray("items")
+            Log.e("Hyi", "size ${items.length()}")
             for (i in 0 until items.length()) {
                 val item = items.getJSONObject(i)
                 val urls = getUrls(item.getJSONArray("sizes"))
                 temp.add(Photo(
-                    id = item.getInt("pid"),
+                    id = item.getInt("id"),
                     ownerId = item.getInt("owner_id"),
                     albumsId = 0,
                     smallUrl = urls.first,
@@ -119,7 +121,8 @@ class PhotosDataSource(private val debug: DebugContract,
         for (i in 0 until ja.length()) {
             val item = ja.getJSONObject(i)
             val type = item.getString("type")
-            val tag = if (auth) "url" else "src"
+//            val tag = if (auth) "url" else "src"
+            val tag = "url"
             when (type) {
                 FULL_TYPE -> full = item.getString(tag).replaceAfter(".jpg", "")
                 SMALL_TYPE -> small = item.getString(tag).replaceAfter(".jpg", "")
