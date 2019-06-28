@@ -1,5 +1,6 @@
 package com.isanechek.myapplication.screens.dashboard
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.isanechek.myapplication.SERVICE_KEY
 import com.isanechek.myapplication.data.DbContract
@@ -81,12 +82,12 @@ class DashboardViewModel(private val debug: DebugContract,
             val temp = mutableListOf<Photo>()
             try {
                 val jo = JSONObject(data)
-                val items = jo.getJSONArray("response")
+                val items = jo.getJSONObject("response").getJSONArray("items")
                 for (i in 0 until items.length()) {
                     val item = items.getJSONObject(i)
                     val urls = getUrls(item.getJSONArray("sizes"))
                     temp.add(Photo(
-                        id = item.getInt("pid"),
+                        id = item.getInt("id"),
                         ownerId = item.getInt("owner_id"),
                         albumsId = 0,
                         smallUrl = urls.first,
@@ -109,6 +110,7 @@ class DashboardViewModel(private val debug: DebugContract,
 
             } catch (e: Exception) {
                 debug.log("Error ${e.message}")
+                Log.e("Hyi", "Error ${e.message}")
                 loadStatus.postValue(LoadStatus.Fail(LoadStatus.Error.UnknownError))
             }
         }
@@ -122,8 +124,8 @@ class DashboardViewModel(private val debug: DebugContract,
             val item = ja.getJSONObject(i)
             val type = item.getString("type")
             when (type) {
-                FULL_TYPE -> full = item.getString("src").replaceAfter(".jpg", "")
-                SMALL_TYPE -> small = item.getString("src").replaceAfter(".jpg", "")
+                FULL_TYPE -> full = item.getString("url").replaceAfter(".jpg", "")
+                SMALL_TYPE -> small = item.getString("url").replaceAfter(".jpg", "")
             }
         }
         return Pair(small, full)

@@ -17,6 +17,6 @@ interface VkApiService {
         @Query("extended") extended: Int,
         @Query("count") count: Int,
         @Query("offset") offset: Int,
-        @Query("version") versionApi: String
+        @Query("v") versionApi: String
     ): Deferred<ResponseBody>
 }
