@@ -9,11 +9,19 @@ import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.models.AboutItem
 import com.isanechek.myapplication.screens.base.BaseListScreen
 import com.isanechek.myapplication.screens.base.bind
+import com.isanechek.myapplication.utils.GlideApp
 import kotlinx.android.synthetic.main.about_item_layout.view.*
+import kotlinx.android.synthetic.main.info_item_header_layout.view.*
 
 class LocationScreen : BaseListScreen() {
 
     private val data = listOf(
+        AboutItem(
+            id = HEADER,
+            title = "",
+            icon = 0,
+            data = ""
+        ),
         AboutItem(
             id = EMAIL,
             title = "Написать на e-mail",
@@ -37,6 +45,12 @@ class LocationScreen : BaseListScreen() {
             title = "Информация о приложении",
             icon = 0,
             data = ""
+        ),
+        AboutItem(
+            id = DEV_WEB,
+            title = "Сайт разработчиков",
+            icon = 0,
+            data = "https://averd-soft.ru"
         )
     )
 
@@ -48,18 +62,22 @@ class LocationScreen : BaseListScreen() {
             closeScreen()
         }
 
-        getRecyclerView().bind(data, _layout.about_item_layout) { item: AboutItem ->
-            about_item_title.text = item.title
-            with(about_item_container) {
-                onClick { clickAction(item) }
-                setOnLongClickListener {
-                    if (item.id != INFO) {
-                        copyDataAction(item.data)
+        getRecyclerView().bind(data)
+            .map(_layout.info_item_header_layout, predicate = { it.id == 4 }) {
+                GlideApp.with(info_header_iv.context).load(_drawable.ic_launcher).into(info_header_iv)
+            }
+            .map(_layout.about_item_layout, predicate = { it.id != 4 }) { item: AboutItem ->
+                about_item_title.text = item.title
+                with(about_item_container) {
+                    onClick { clickAction(item) }
+                    setOnLongClickListener {
+                        if (item.id != INFO) {
+                            copyDataAction(item.data)
+                        }
+                        true
                     }
-                    true
                 }
             }
-        }
     }
 
     private fun clickAction(item: AboutItem) {
@@ -67,8 +85,8 @@ class LocationScreen : BaseListScreen() {
             EMAIL -> {
                 requireActivity().sendEmail("Сварска Спб", item.data, "Написать нам")
             }
-            VK -> requireActivity().actionView { item.data }
-            INFO -> Unit
+            VK, DEV_WEB -> requireActivity().actionView { item.data }
+            INFO -> InfoAppDialog().show(childFragmentManager, "AppVersionDialog")
             PHONE -> WarningDialog().show(childFragmentManager, "WarningDialog")
         }
     }
@@ -87,6 +105,8 @@ class LocationScreen : BaseListScreen() {
         private const val VK = 1
         private const val INFO = 2
         private const val PHONE = 3
+        private const val HEADER = 4
+        private const val DEV_WEB = 5
         private const val TAG = "About"
     }
 

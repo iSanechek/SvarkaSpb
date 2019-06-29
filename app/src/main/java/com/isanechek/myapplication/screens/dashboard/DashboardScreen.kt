@@ -97,6 +97,10 @@ class DashboardScreen : BaseScreen() {
         dashboard_message_action.onClick {
             actionDialogShow(true)
         }
+
+        dashboard_as_action.onClick {
+            requireActivity().actionView { "https://averd-soft.ru" }
+        }
     }
 
     private fun actionDialogShow(isMessage: Boolean) {

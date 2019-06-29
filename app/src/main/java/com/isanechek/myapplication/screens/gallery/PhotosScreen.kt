@@ -1,6 +1,5 @@
 package com.isanechek.myapplication.screens.gallery
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
@@ -8,12 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.request.RequestOptions
 import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.Photo
-import com.isanechek.myapplication.screens.auth.AuthScreen
 import com.isanechek.myapplication.screens.base.BaseListScreen
 import com.isanechek.myapplication.screens.base.bind
 import com.isanechek.myapplication.screens.viewer.ViewerScreen
 import com.isanechek.myapplication.utils.GlideApp
-import com.vk.api.sdk.VK
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.photo_item_layout.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,8 +42,12 @@ class PhotosScreen : BaseListScreen() {
                 .into(photo_item_cover)
 
             photo_item_container.onClick {
-                findNavController().navigate(_id.go_from_photos_to_viewer, bundleOf(ViewerScreen.ARGS to photo.smallUrl,
-                    ViewerScreen.ARGS_FULL to photo.fullUrl))
+                findNavController().navigate(
+                    _id.go_from_photos_to_viewer, bundleOf(
+                        ViewerScreen.ARGS to photo.smallUrl,
+                        ViewerScreen.ARGS_FULL to photo.fullUrl
+                    )
+                )
             }
         }.submitList(vm.data)
     }
