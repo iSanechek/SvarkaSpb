@@ -1,8 +1,11 @@
 package com.isanechek.myapplication.widgets
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.animation.DecelerateInterpolator
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.isanechek.myapplication.R
@@ -25,15 +28,21 @@ open class ToolbarX : Toolbar {
         initView(context, attrs, defStyleAttr)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setElevationVisibility(show: Boolean) {
         if (isElevationShown == show) {
             return
         }
 
+
+        Log.e("Hyi", "Is show $show")
+
         isElevationShown = show
 
+        val z = if (show) toolbarElevation else 0f
+        Log.e("Hyi", "z $z")
         ViewCompat.animate(this).run {
-            translationZ(if (show) toolbarElevation else 0f)
+            translationZ(z)
             interpolator = DecelerateInterpolator()
             duration = animationDuration
             start()

@@ -1,13 +1,10 @@
 package com.isanechek.myapplication.screens.base
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.myapplication._layout
 import com.isanechek.myapplication.data.models.LoadStatus
-import com.isanechek.myapplication.onClick
 import com.isanechek.myapplication.setVisible
 import com.yandex.mobile.ads.AdRequest
 import com.yandex.mobile.ads.AdSize
