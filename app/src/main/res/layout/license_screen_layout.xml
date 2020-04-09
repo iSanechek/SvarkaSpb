@@ -1,72 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent" android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
-                                           android:layout_height="match_parent"
-                                           android:layout_weight="0.25">
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/license_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:layout_margin="@dimen/dp8"
-                    tools:text="@string/long_text_for_test"/>
+                android:id="@+id/license_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp8"
+                android:gravity="center"
+                android:textSize="16sp"
+                tools:text="@string/long_text_for_test" />
 
-            <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_marginTop="@dimen/dp16"
-                          android:layout_marginEnd="@dimen/dp16"
-                          android:layout_marginStart="@dimen/dp16"
-                          android:layout_marginBottom="@dimen/dp4"
-                          android:layout_gravity="center_horizontal|end"
-                          android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|end"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginEnd="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp4"
+                android:orientation="horizontal">
+
                 <com.google.android.material.button.MaterialButton
-                        android:id="@+id/license_close_app"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/dp8"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="@color/colorAccent"
-                        android:text="До свидания"/>
+                    android:id="@+id/license_close_app"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:text="До свидания"
+                    android:textColor="@color/colorAccent"
+                    app:strokeColor="@color/colorAccent"
+                    app:strokeWidth="1dp" />
+
                 <com.google.android.material.button.MaterialButton
-                        android:id="@+id/license_is_ok"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Я согласен"/>
+                    android:id="@+id/license_is_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:layout_gravity="center_vertical"
+                    android:text="Я согласен" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/license_short_action"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2">
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/license_short_action"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/dp8"
-                android:layout_marginStart="@dimen/dp16"
-                android:layout_marginBottom="@dimen/dp16"
-                android:layout_marginEnd="@dimen/dp16"
-                android:layout_marginTop="@dimen/dp4"
-                app:cornerRadius="@dimen/dp8"
-                android:textSize="16sp"
-                app:strokeColor="@color/colorAccent"
-                app:strokeWidth="1dp"
-                android:text="Мне лень читать"/>
+            android:layout_margin="@dimen/dp8"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp4"
+            android:layout_marginEnd="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp16"
+            android:text="Мне лень читать"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:cornerRadius="@dimen/dp8"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,12 +1,13 @@
 package com.isanechek.myapplication.screens.base
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.isanechek.myapplication.utils.SingleLiveEvent
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel : ViewModel(), CoroutineScope {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
 
     private val jobsCache = hashMapOf<String, Job>()
     private val parentJob = SupervisorJob()

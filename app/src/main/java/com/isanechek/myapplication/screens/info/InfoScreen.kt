@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
@@ -53,8 +54,7 @@ class InfoScreen : BaseListScreen() {
         )
     )
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun bindUi(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle("Виды работ")
         setupCloseButton(_drawable.ic_close_black_24dp) {
             findNavController().navigateUp()
@@ -63,17 +63,15 @@ class InfoScreen : BaseListScreen() {
         bindAds(if (BuildConfig.DEBUG) "R-M-DEMO-320x50" else "R-M-354145-1")
 
         if (isAppInstalledOrNot(requireActivity(), VIBER_PACKAGE)) {
-                list.add(
-                    AboutItem(
-            id = VIBER_ID,
-            icon = 0,
-            data = "+79312070664",
-            title = "Написать в viber"
-        )
+            list.add(
+                AboutItem(
+                    id = VIBER_ID,
+                    icon = 0,
+                    data = "+79312070664",
+                    title = "Написать в viber"
                 )
-
-                 
-            }
+            )
+        }
 
         getRecyclerView()
             .bind(InfoData.inits(), _layout.info_item_layout) { info: Info ->
@@ -86,12 +84,19 @@ class InfoScreen : BaseListScreen() {
                             val item = list[index]
                             when (item.id) {
                                 VK_ID -> requireActivity().actionView { item.data }
-                                EMAIL_ID -> requireActivity().sendEmail("Сварска Спб", item.data, "Написать нам")
+                                EMAIL_ID -> requireActivity().sendEmail(
+                                    "Сварска Спб",
+                                    item.data,
+                                    "Написать нам"
+                                )
                                 VIBER_ID -> {
                                     val phoneNumber = "tel:${item.data}"
                                     Intent(Intent.ACTION_VIEW)
                                         .run {
-                                            setClassName("com.viber.voip", "com.viber.voip.WelcomeActivity")
+                                            setClassName(
+                                                "com.viber.voip",
+                                                "com.viber.voip.WelcomeActivity"
+                                            )
                                             data = phoneNumber.toUri()
                                             requireActivity().startActivity(this)
                                         }
@@ -111,11 +116,14 @@ class InfoScreen : BaseListScreen() {
             }
     }
 
+
     private fun copyDataAction(data: String) {
-        val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("Info_data", data)
-        clipboard.primaryClip = clip
-        Toast.makeText(requireActivity(), "Данные скопированы в буфер обмена", Toast.LENGTH_SHORT).show()
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(requireActivity(), "Данные скопированы в буфер обмена", Toast.LENGTH_SHORT)
+            .show()
     }
 
     companion object {

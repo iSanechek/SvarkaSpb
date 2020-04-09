@@ -8,7 +8,8 @@ import com.isanechek.myapplication.di.utilsModule
 import com.vk.api.sdk.VK
 import com.yandex.metrica.YandexMetrica
 import com.yandex.metrica.YandexMetricaConfig
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
 
@@ -31,12 +32,13 @@ class App : Application() {
 
 
 
-        startKoin(
-            this, listOf(
+        startKoin {
+            androidContext(this@App)
+            modules(
                 appModule,
                 dataModule,
                 utilsModule
             )
-        )
+        }
     }
 }

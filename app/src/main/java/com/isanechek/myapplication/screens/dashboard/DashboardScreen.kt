@@ -3,10 +3,13 @@ package com.isanechek.myapplication.screens.dashboard
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
@@ -43,9 +46,13 @@ class DashboardScreen : BaseScreen() {
 
     override fun layoutId(): Int = _layout.dashboard_screen_layout
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         handleSetupUi()
+
+        vm.toast.observe(requireActivity(), Observer { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onResume() {
@@ -200,6 +207,10 @@ class DashboardScreen : BaseScreen() {
 
         vm.liveData.observe(this, Observer { d ->
             d ?: return@Observer
+            d.forEach { i ->
+                Log.e("TAG", "loadData f: ${i.fullUrl}")
+                Log.e("TAG", "loadData s: ${i.smallUrl}")
+            }
             if (!destroy) {
                 dashboard_banner_view.apply {
                 delayTime = 5000

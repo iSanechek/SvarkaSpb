@@ -147,6 +147,6 @@
     <Transition motion:constraintSetStart="@id/start"
                 motion:constraintSetEnd="@id/no_auth_state"
                 motion:duration="300"
-                motion:interpolator="linear"/>
+                motion:motionInterpolator="linear"/>
 
 </MotionScene>

@@ -3,6 +3,7 @@ package com.isanechek.myapplication.screens.shop
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -47,8 +48,7 @@ class ShowScreen : BaseListScreen() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun bindUi(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle("Магазин")
         setupCloseButton(_drawable.ic_close_black_24dp) {
             findNavController().navigateUp()

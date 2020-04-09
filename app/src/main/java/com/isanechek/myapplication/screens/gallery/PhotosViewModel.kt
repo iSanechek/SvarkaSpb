@@ -1,19 +1,17 @@
 package com.isanechek.myapplication.screens.gallery
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.AndroidViewModel
 import androidx.paging.PagedList
 import com.isanechek.myapplication.data.Photo
 import com.isanechek.myapplication.data.PhotosDataSource
-import com.isanechek.myapplication.screens.base.BaseViewModel
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class PhotosViewModel : BaseViewModel(), KoinComponent {
-
-    private val dataSource: PhotosDataSource by inject()
+class PhotosViewModel(application: Application, private val dataSource: PhotosDataSource) :
+    AndroidViewModel(application) {
 
     private val mainHandler by lazy {
         Handler(Looper.getMainLooper())
@@ -29,7 +27,7 @@ class PhotosViewModel : BaseViewModel(), KoinComponent {
         .build()
 
     val data by lazy {
-        PagedList.Builder<Int, Photo>(dataSource, pageConfig)
+        PagedList.Builder(dataSource, pageConfig)
             .setNotifyExecutor(ui)
             .setFetchExecutor(Executors.newCachedThreadPool())
             .build()

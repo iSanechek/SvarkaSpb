@@ -21,9 +21,8 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.media.ThumbnailUtils
 import android.util.AttributeSet
-import android.widget.ImageView
 
-class MultiImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
+class MultiImageView(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageView(context, attrs) {
     //Shape of view
     var shape = Shape.NONE
         set(value) {
@@ -138,7 +137,7 @@ class MultiDrawable(val bitmaps: ArrayList<Bitmap>) : Drawable() {
         }
     }
 
-    override fun draw(canvas: Canvas?) {
+    override fun draw(canvas: Canvas) {
         if (canvas != null) {
             items.forEach {
                 canvas.drawBitmap(it.bitmap, bounds, it.position, paint)
@@ -171,7 +170,7 @@ class MultiDrawable(val bitmaps: ArrayList<Bitmap>) : Drawable() {
 
     override fun getOpacity() = PixelFormat.TRANSLUCENT
 
-    override fun setColorFilter(colorFilter: ColorFilter) {
+    override fun setColorFilter(colorFilter: ColorFilter?) {
         paint.colorFilter = colorFilter
     }
     //***------------------***//

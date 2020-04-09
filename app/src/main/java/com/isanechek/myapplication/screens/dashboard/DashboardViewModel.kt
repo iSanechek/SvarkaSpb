@@ -1,53 +1,78 @@
 package com.isanechek.myapplication.screens.dashboard
 
-import android.util.Log
+import android.app.Application
+import android.content.Context
+import androidx.annotation.StringRes
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.isanechek.myapplication.SERVICE_KEY
+import com.isanechek.myapplication._text
 import com.isanechek.myapplication.data.DbContract
 import com.isanechek.myapplication.data.Photo
 import com.isanechek.myapplication.data.models.LoadStatus
 import com.isanechek.myapplication.data.remote.VkApiService
 import com.isanechek.myapplication.empty
 import com.isanechek.myapplication.retryDeferredWithDelay
-import com.isanechek.myapplication.screens.base.BaseViewModel
+import com.isanechek.myapplication.utils.NetworkUtils
 import com.isanechek.myapplication.utils.PrefManager
 import com.isanechek.myapplication.utils.loging.DebugContract
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
-class DashboardViewModel(private val debug: DebugContract,
-                         private val apiVk: VkApiService,
-                         private val db: DbContract,
-                         private val pref: PrefManager
-) : BaseViewModel() {
+class DashboardViewModel(
+    application: Application,
+    private val debug: DebugContract,
+    private val apiVk: VkApiService,
+    private val db: DbContract,
+    private val pref: PrefManager
+) : AndroidViewModel(application) {
+
+    private val context: Context = getApplication()
+
+    private val _toast = MutableLiveData<String>()
+    val toast: LiveData<String>
+        get() = _toast
 
     val loadStatus = MutableLiveData<LoadStatus>()
     val liveData = MutableLiveData<List<Photo>>()
 
     fun loadPhotos() {
-        addJob(job = launch(context = coroutineContext) {
-            loadAndSaveData()
-        }, key = "load_photos")
+        viewModelScope.launch(Dispatchers.Default) {
+            if (NetworkUtils.isConnected(context)) {
+                loadAndSaveData()
+            } else {
+                showToast(_text.no_network_error_msg)
+            }
+        }
+    }
+
+    fun showToast(@StringRes textId: Int) {
+        _toast.postValue(context.getString(textId))
     }
 
     private suspend fun loadData() = retryDeferredWithDelay(
-       deferred = {
-           apiVk.getPhotos(
-               ownerId = "-125640924",
-               album_id = "wall",
-               accessToken = SERVICE_KEY,
-               count = 10,
-               offset = 0,
-               needPhotoSizes = 1,
-               extended = 0,
-               skipHidden = 1,
-               versionApi = "5.92")
-       }
+        deferred = {
+            apiVk.getPhotos(
+                ownerId = "-125640924",
+                album_id = "wall",
+                accessToken = SERVICE_KEY,
+                count = 10,
+                offset = 0,
+                needPhotoSizes = 1,
+                extended = 0,
+                skipHidden = 1,
+                versionApi = "5.92"
+            )
+        }
     )
 
-    private suspend fun loadAndSaveData() {
+    private suspend fun loadAndSaveData() = withContext(Dispatchers.IO) {
 
         var loadFromNetwork = false
         var dbIsEmpty = false
@@ -66,7 +91,7 @@ class DashboardViewModel(private val debug: DebugContract,
                 val timex = now - last
                 debug.log("time last $last")
                 debug.log("time timex $timex")
-                if (timex > 28800000) {
+                if (timex > TimeUnit.HOURS.toMillis(1)) {
                     loadFromNetwork = true
                     debug.log("save time $now")
                     pref.lastUpdateTime = now
@@ -74,11 +99,9 @@ class DashboardViewModel(private val debug: DebugContract,
             }
         }
 
-        debug.log("Load from network $loadFromNetwork")
         if (loadFromNetwork) {
             loadStatus.postValue(LoadStatus.Loading)
             val data = loadData().string()
-            debug.log("Data from network $data")
             val temp = mutableListOf<Photo>()
             try {
                 val jo = JSONObject(data)
@@ -86,16 +109,21 @@ class DashboardViewModel(private val debug: DebugContract,
                 for (i in 0 until items.length()) {
                     val item = items.getJSONObject(i)
                     val urls = getUrls(item.getJSONArray("sizes"))
-                    temp.add(Photo(
-                        id = item.getInt("id"),
-                        ownerId = item.getInt("owner_id"),
-                        albumsId = 0,
-                        smallUrl = urls.first,
-                        fullUrl = urls.second
-                    ))
+                    if (urls.first.isEmpty()) {
+                        break
+                    }
+
+                    temp.add(
+                        Photo(
+                            id = item.getInt("id"),
+                            ownerId = item.getInt("owner_id"),
+                            albumsId = 0,
+                            smallUrl = urls.first,
+                            fullUrl = urls.second
+                        )
+                    )
                 }
 
-                debug.log("Temp size ${temp.size}")
                 if (temp.isNotEmpty()) {
                     loadStatus.postValue(LoadStatus.Done)
                     liveData.postValue(temp)
@@ -110,29 +138,24 @@ class DashboardViewModel(private val debug: DebugContract,
 
             } catch (e: Exception) {
                 debug.log("Error ${e.message}")
-                Log.e("Hyi", "Error ${e.message}")
                 loadStatus.postValue(LoadStatus.Fail(LoadStatus.Error.UnknownError))
             }
         }
     }
 
-    private fun getUrls(ja: JSONArray) : Pair<String, String> {
-        var full = String.empty()
-        var small = String.empty()
-
-        for (i in 0 until ja.length()) {
-            val item = ja.getJSONObject(i)
-            val type = item.getString("type")
-            when (type) {
-                FULL_TYPE -> full = item.getString("url").replaceAfter(".jpg", "")
-                SMALL_TYPE -> small = item.getString("url").replaceAfter(".jpg", "")
+    private fun getUrls(ja: JSONArray): Pair<String, String> {
+        var url = String.empty()
+        val imageSize = arrayOf("w", "z", "y", "q", "p", "o", "x", "m", "s")
+        val temp = Array<JSONObject>(ja.length()) { i ->
+            ja.getJSONObject(i)
+        }
+        for (s in imageSize) {
+            val obj = temp.firstOrNull { i -> i.getString("type") == s  }
+            if (obj != null) {
+                url = obj.getString("url")
+                break
             }
         }
-        return Pair(small, full)
-    }
-
-    companion object {
-        private const val SMALL_TYPE = "z"
-        private const val FULL_TYPE = "w"
+        return Pair(url, url)
     }
 }

@@ -1,59 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/info_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp8"
+    android:layout_marginTop="@dimen/dp4"
+    android:layout_marginEnd="@dimen/dp8"
+    android:layout_marginBottom="@dimen/dp4"
+    android:clickable="false"
+    android:clipChildren="true"
+    app:cardCornerRadius="@dimen/dp8"
+    app:cardElevation="@dimen/dp4">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp8"
-        android:layout_marginEnd="@dimen/dp8"
-        android:layout_marginTop="@dimen/dp4"
-        android:layout_marginBottom="@dimen/dp4"
-        app:cardCornerRadius="@dimen/dp8"
-        app:cardElevation="@dimen/dp4"
-        android:clickable="false"
-        android:clipChildren="true"
-        android:id="@+id/info_item_container">
-
-
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/dp8"
-                  android:orientation="vertical">
-        <TextView
-                android:id="@+id/info_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@tools:sample/cities"
-                android:layout_marginStart="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp8"
-                android:textColor="@color/colorAccent"
-                android:textSize="22sp"/>
+        android:layout_margin="@dimen/dp8"
+        android:orientation="vertical">
 
         <TextView
-                android:id="@+id/info_item_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="@string/long_text_for_test"
-                android:layout_marginTop="@dimen/dp2"
-                android:layout_marginStart="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp8"
-                android:layout_marginBottom="@dimen/dp4"
-                android:textSize="16sp"
-                android:padding="@dimen/dp4"/>
+            android:id="@+id/info_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp8"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            tools:text="@tools:sample/cities" />
+
+        <TextView
+            android:id="@+id/info_item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp2"
+            android:layout_marginEnd="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp4"
+            android:padding="@dimen/dp4"
+            android:textSize="16sp"
+            tools:text="@string/long_text_for_test" />
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/info_item_action"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cornerRadius="@dimen/dp16"
-                android:text="Узнать подробности"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginStart="@dimen/dp4"
-                android:layout_marginBottom="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp8"/>
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:id="@+id/info_item_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp8"
+            android:textColor="@color/colorAccent"
+            android:layout_marginBottom="@dimen/dp8"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/colorAccent"
+            android:text="Узнать подробности"
+            app:cornerRadius="@dimen/dp16" />
 
     </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.isanechek.myapplication.data
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
@@ -9,6 +10,7 @@ import com.isanechek.myapplication.data.remote.VkApiService
 import com.isanechek.myapplication.data.requests.VkPhotosRequest
 import com.isanechek.myapplication.empty
 import com.isanechek.myapplication.retryDeferredWithDelay
+import com.isanechek.myapplication.utils.NetworkUtils
 import com.isanechek.myapplication.utils.loging.DebugContract
 import com.vk.api.sdk.VK
 import kotlinx.coroutines.Dispatchers
@@ -17,34 +19,51 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 
-class PhotosDataSource(private val debug: DebugContract,
-                       private val db: DbContract,
-                       private val api: VkApiService) : PositionalDataSource<Photo>() {
+class PhotosDataSource(
+    private val context: Context,
+    private val debug: DebugContract,
+    private val db: DbContract,
+    private val api: VkApiService
+) : PositionalDataSource<Photo>() {
 
     val progress = MutableLiveData<LoadStatus>()
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Photo>) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val result = when {
-                VK.isLoggedIn() -> loadPhotos(params.requestedLoadSize, params.requestedStartPosition)
-                else -> loadPhotosNotAuth(params.requestedLoadSize, params.requestedStartPosition)
+        if (NetworkUtils.isConnected(context)) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val result = when {
+                    VK.isLoggedIn() -> loadPhotos(
+                        params.requestedLoadSize,
+                        params.requestedStartPosition
+                    )
+                    else -> loadPhotosNotAuth(
+                        params.requestedLoadSize,
+                        params.requestedStartPosition
+                    )
+                }
+                if (result.second.isNotEmpty()) {
+                    db.savePhotos(result.second)
+                }
+                callback.onResult(result.second, params.requestedStartPosition, result.first)
+                progress.postValue(LoadStatus.Done)
             }
-            if (result.second.isNotEmpty()) {
-                db.savePhotos(result.second)
-            }
-            callback.onResult(result.second, params.requestedStartPosition, result.first)
-            progress.postValue(LoadStatus.Done)
+        } else {
+            progress.postValue(LoadStatus.Fail(LoadStatus.Error.NetworkError(404)))
         }
     }
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Photo>) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val result = when {
-                VK.isLoggedIn() -> loadPhotos(params.loadSize, params.startPosition)
-                else -> loadPhotosNotAuth(params.loadSize, params.startPosition)
+        if (NetworkUtils.isConnected(context)) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val result = when {
+                    VK.isLoggedIn() -> loadPhotos(params.loadSize, params.startPosition)
+                    else -> loadPhotosNotAuth(params.loadSize, params.startPosition)
+                }
+                callback.onResult(result.second)
+                progress.postValue(LoadStatus.Done)
             }
-            callback.onResult(result.second)
-            progress.postValue(LoadStatus.Done)
+        } else {
+            progress.postValue(LoadStatus.Fail(LoadStatus.Error.NetworkError(404)))
         }
     }
 
@@ -59,7 +78,8 @@ class PhotosDataSource(private val debug: DebugContract,
                 needPhotoSizes = 1,
                 extended = 0,
                 skipHidden = 1,
-                versionApi = "5.92")
+                versionApi = "5.92"
+            )
         }
     )
 
@@ -75,13 +95,15 @@ class PhotosDataSource(private val debug: DebugContract,
             for (i in 0 until items.length()) {
                 val item = items.getJSONObject(i)
                 val urls = getUrls(item.getJSONArray("sizes"))
-                temp.add(Photo(
-                    id = item.getInt("id"),
-                    ownerId = item.getInt("owner_id"),
-                    albumsId = 0,
-                    smallUrl = urls.first,
-                    fullUrl = urls.second
-                ))
+                temp.add(
+                    Photo(
+                        id = item.getInt("id"),
+                        ownerId = item.getInt("owner_id"),
+                        albumsId = 0,
+                        smallUrl = urls.first,
+                        fullUrl = urls.second
+                    )
+                )
             }
         } catch (e: Exception) {
             debug.log("No auth load data error ${e.message}")
@@ -102,19 +124,21 @@ class PhotosDataSource(private val debug: DebugContract,
             val item = items.getJSONObject(i)
 //            debug.log(item.toString())
             val urls = getUrls(item.getJSONArray("sizes"), true)
-            temp.add(Photo(
-                id = item.getInt("id"),
-                ownerId = item.getInt("owner_id"),
-                albumsId = item.getInt("album_id"),
-                smallUrl = urls.first,
-                fullUrl = urls.second
-            ))
+            temp.add(
+                Photo(
+                    id = item.getInt("id"),
+                    ownerId = item.getInt("owner_id"),
+                    albumsId = item.getInt("album_id"),
+                    smallUrl = urls.first,
+                    fullUrl = urls.second
+                )
+            )
         }
 
         return Pair(totalCount, temp)
     }
 
-    private fun getUrls(ja: JSONArray, auth: Boolean = false) : Pair<String, String> {
+    private fun getUrls(ja: JSONArray, auth: Boolean = false): Pair<String, String> {
         var full = String.empty()
         var small = String.empty()
 

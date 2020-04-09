@@ -1,17 +1,18 @@
 package com.isanechek.myapplication.screens.base
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.myapplication._layout
-import com.isanechek.myapplication.data.models.LoadStatus
 import com.isanechek.myapplication.setVisible
+import com.isanechek.myapplication.widgets.ToolbarX
 import com.yandex.mobile.ads.AdRequest
 import com.yandex.mobile.ads.AdSize
 import kotlinx.android.synthetic.main.base_list_screen_layout.*
 import kotlinx.android.synthetic.main.toolbar_x_layout.*
 
-open class BaseListScreen : BaseScreen() {
+abstract class BaseListScreen : BaseScreen() {
 
     private val scrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -21,19 +22,14 @@ open class BaseListScreen : BaseScreen() {
         }
     }
 
-
-
-    val progressObserver = Observer<LoadStatus> { status ->
-        status?.let {
-            when (it) {
-                is LoadStatus.Loading -> toolbar_x_progress.setVisible(true)
-                is LoadStatus.Done -> toolbar_x_progress.setVisible(false)
-                is LoadStatus.Error -> toolbar_x_progress.setVisible(false)
-            }
-        }
-    }
+    abstract fun bindUi(view: View, savedInstanceState: Bundle?)
 
     override fun layoutId(): Int = _layout.base_list_screen_layout
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindUi(view, savedInstanceState)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -57,9 +53,9 @@ open class BaseListScreen : BaseScreen() {
         toolbar_x_progress.setVisible(hide)
     }
 
-    open fun getToolbar() = toolbar_x
+    open fun getToolbar(): ToolbarX = toolbar_x
 
-    open fun getRecyclerView() = base_list
+    open fun getRecyclerView(): RecyclerView = this.base_list
 
     open fun bindAds(adsKey: String) {
         with(list_ads) {

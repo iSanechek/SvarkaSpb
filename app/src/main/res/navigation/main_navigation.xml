@@ -1,87 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/main_navigation"
-            app:startDestination="@id/dashboard_screen">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/dashboard_screen">
 
     <fragment
-            android:id="@+id/dashboard_screen"
-            android:name="com.isanechek.myapplication.screens.dashboard.DashboardScreen"
-            android:label="Dashboard" >
+        android:id="@+id/dashboard_screen"
+        android:name="com.isanechek.myapplication.screens.dashboard.DashboardScreen"
+        android:label="Dashboard">
 
-        <action android:id="@+id/go_from_dashboard_to_info"
-                app:destination="@id/info_screen" />
+        <action
+            android:id="@+id/go_from_dashboard_to_info"
+            app:destination="@id/info_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
 
-        <action android:id="@+id/go_from_dashboard_to_chat"
-                app:destination="@id/chat_screen" />
+        <action
+            android:id="@+id/go_from_dashboard_to_market"
+            app:destination="@id/shop_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
 
-        <action android:id="@+id/go_from_dashboard_to_market"
-                app:destination="@id/shop_screen"
-                app:popEnterAnim="@anim/fade_in"
-                app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/go_from_dashboard_to_about"
+            app:destination="@id/about_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
 
-        <action android:id="@+id/go_from_dashboard_to_about"
-                app:destination="@id/about_screen" />
+        <action
+            android:id="@+id/go_from_dashboard_to_photos"
+            app:destination="@id/photos_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
 
-        <action android:id="@+id/go_from_dashboard_to_photos"
-                app:destination="@id/photos_screen"
-                app:popEnterAnim="@anim/fade_in"
-                app:popExitAnim="@anim/slide_out_right"  />
+        <action
+            android:id="@+id/go_from_dashboard_to_viewer"
+            app:destination="@id/viewer_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
 
-        <action android:id="@+id/go_from_dashboard_to_viewer"
-                app:destination="@id/viewer_screen"
-                app:popEnterAnim="@anim/fade_in"
-                app:popExitAnim="@anim/slide_out_right" />
-
-        <action android:id="@+id/go_from_dashboard_to_license"
-                app:destination="@id/license_screen"
-                app:popUpTo="@id/dashboard_screen"
-                app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/go_from_dashboard_to_license"
+            app:destination="@id/license_screen"
+            app:popUpTo="@id/dashboard_screen"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
     <fragment
-            android:id="@+id/info_screen"
-            android:name="com.isanechek.myapplication.screens.info.InfoScreen"
-            android:label="Info" />
+        android:id="@+id/info_screen"
+        android:name="com.isanechek.myapplication.screens.info.InfoScreen"
+        android:label="Info" />
 
     <fragment
-            android:id="@+id/shop_screen"
-            android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
-            android:label="Shop" >
-        <action android:id="@+id/go_shop_from_master_to_detail"
-                app:destination="@id/shop_detail_screen" />
-    </fragment>
-
-    <fragment android:id="@+id/shop_detail_screen"
-              android:name="com.isanechek.myapplication.screens.shop.ShopDetailScreen"
-              android:label="ShopDetail" >
-        <action android:id="@+id/go_from_shop_detail_to_viewer"
-                app:destination="@id/viewer_screen" />
+        android:id="@+id/shop_screen"
+        android:name="com.isanechek.myapplication.screens.shop.ShowScreen"
+        android:label="Shop">
+        <action
+            android:id="@+id/go_shop_from_master_to_detail"
+            app:destination="@id/shop_detail_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
     </fragment>
 
     <fragment
-            android:id="@+id/chat_screen"
-            android:name="com.isanechek.myapplication.screens.chat.ChatScreen"
-            android:label="Chat" />
-
-    <fragment android:id="@+id/about_screen"
-              android:name="com.isanechek.myapplication.screens.location.LocationScreen"
-              android:label="About" />
-
-    <fragment android:id="@+id/photos_screen"
-              android:name="com.isanechek.myapplication.screens.gallery.PhotosScreen"
-              android:label="Photos" >
-        <action android:id="@+id/go_from_photos_to_viewer"
-                app:destination="@id/viewer_screen" />
+        android:id="@+id/shop_detail_screen"
+        android:name="com.isanechek.myapplication.screens.shop.ShopDetailScreen"
+        android:label="ShopDetail">
+        <action
+            android:id="@+id/go_from_shop_detail_to_viewer"
+            app:destination="@id/viewer_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
     </fragment>
 
-    <fragment android:id="@+id/viewer_screen"
-              android:name="com.isanechek.myapplication.screens.viewer.ViewerScreen"
-              android:label="Viewer" />
 
-    <fragment android:id="@+id/license_screen"
-              android:name="com.isanechek.myapplication.screens.license.LicenseScreen"
-              android:label="License" />
+    <fragment
+        android:id="@+id/about_screen"
+        android:name="com.isanechek.myapplication.screens.location.LocationScreen"
+        android:label="About" />
+
+    <fragment
+        android:id="@+id/photos_screen"
+        android:name="com.isanechek.myapplication.screens.gallery.PhotosScreen"
+        android:label="Photos">
+        <action
+            android:id="@+id/go_from_photos_to_viewer"
+            app:destination="@id/viewer_screen"
+            app:popEnterAnim="@anim/alpha_in"
+            app:popExitAnim="@anim/slide_to_bottom" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewer_screen"
+        android:name="com.isanechek.myapplication.screens.viewer.ViewerScreen"
+        android:label="Viewer" />
+
+    <fragment
+        android:id="@+id/license_screen"
+        android:name="com.isanechek.myapplication.screens.license.LicenseScreen"
+        android:label="License" />
 
 </navigation>

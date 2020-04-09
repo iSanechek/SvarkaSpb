@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.isanechek.myapplication.*
 import com.isanechek.myapplication.data.models.AboutItem
@@ -54,9 +55,7 @@ class LocationScreen : BaseListScreen() {
         )
     )
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun bindUi(view: View, savedInstanceState: Bundle?) {
         setToolbarTitle("Контактактная информация")
         setupCloseButton(_drawable.ic_close_black_24dp) {
             closeScreen()
@@ -64,7 +63,8 @@ class LocationScreen : BaseListScreen() {
 
         getRecyclerView().bind(data)
             .map(_layout.info_item_header_layout, predicate = { it.id == 4 }) {
-                GlideApp.with(info_header_iv.context).load(_drawable.ic_launcher).into(info_header_iv)
+                GlideApp.with(info_header_iv.context).load(_drawable.ic_launcher)
+                    .into(info_header_iv)
             }
             .map(_layout.about_item_layout, predicate = { it.id != 4 }) { item: AboutItem ->
                 about_item_title.text = item.title
@@ -80,8 +80,9 @@ class LocationScreen : BaseListScreen() {
             }
     }
 
+
     private fun clickAction(item: AboutItem) {
-        when(item.id) {
+        when (item.id) {
             EMAIL -> {
                 requireActivity().sendEmail("Сварска Спб", item.data, "Написать нам")
             }
@@ -92,11 +93,13 @@ class LocationScreen : BaseListScreen() {
     }
 
     private fun copyDataAction(data: String) {
-        val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("Info_data", data)
-        clipboard.primaryClip = clip
+        clipboard.setPrimaryClip(clip)
 
-        Toast.makeText(requireActivity(), "Данные скопированы в буфер обмена", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), "Данные скопированы в буфер обмена", Toast.LENGTH_SHORT)
+            .show()
     }
 
 

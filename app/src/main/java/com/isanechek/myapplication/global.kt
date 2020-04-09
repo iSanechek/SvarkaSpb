@@ -34,6 +34,7 @@ inline fun Context.actionView(url: () -> String) {
 typealias _layout = R.layout
 typealias _id = R.id
 typealias _drawable = R.drawable
+typealias _text = R.string
 
 fun View.onClick(function: () -> Unit) {
     setOnClickListener {
