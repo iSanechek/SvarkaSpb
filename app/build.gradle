@@ -30,7 +30,6 @@ android {
     }
 
     ext.autoIncrementBuildNumber = {
-
         if (versionPropsFile.canRead()) {
             def versionProps = new Properties()
             versionProps.load(new FileInputStream(versionPropsFile))
