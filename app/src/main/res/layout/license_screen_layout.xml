@@ -37,23 +37,24 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/license_close_app"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/dp8"
                     android:text="До свидания"
-                    android:textColor="@color/colorAccent"
-                    app:strokeColor="@color/colorAccent"
-                    app:strokeWidth="1dp" />
+                    android:textColor="@color/colorAccent" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/license_is_ok"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
                     android:layout_gravity="center_vertical"
-                    android:text="Я согласен" />
+                    android:text="Я согласен"
+                    android:textColor="@color/colorAccent"
+                    app:strokeColor="@color/colorAccent"
+                    app:strokeWidth="1dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.myapplication._layout
 import com.isanechek.myapplication.setVisible
 import com.isanechek.myapplication.widgets.ToolbarX
-import com.yandex.mobile.ads.AdRequest
-import com.yandex.mobile.ads.AdSize
 import kotlinx.android.synthetic.main.base_list_screen_layout.*
 import kotlinx.android.synthetic.main.toolbar_x_layout.*
 
@@ -58,10 +56,6 @@ abstract class BaseListScreen : BaseScreen() {
     open fun getRecyclerView(): RecyclerView = this.base_list
 
     open fun bindAds(adsKey: String) {
-        with(list_ads) {
-            blockId = adsKey
-            adSize = AdSize.BANNER_320x50
-            loadAd(AdRequest.builder().build())
-        }
+
     }
 }
